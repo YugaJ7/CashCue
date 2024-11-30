@@ -128,22 +128,22 @@ class _LoginScreenState extends State<LoginScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const CustomText(
+                            CustomText(
                               text: 'Don\'t have an account?',
-                              color: Color(0xFFA33CEB),
+                              color: const Color(0xFFA33CEB),
                               fontfamily: 'Urbanist',
-                              fontSize: 14,
+                              fontSize: width*0.037,
                               fontweigth: FontWeight.w500,
                             ),
                             TextButton(
                               onPressed: () {
                                 Navigator.pushReplacementNamed(context, '/register');
                               },
-                              child: const CustomText(
+                              child: CustomText(
                                 text: 'Register Now',
-                                color: Color(0xFF1E122B),
+                                color: const Color(0xFF1E122B),
                                 fontfamily: 'Urbanist',
-                                fontSize: 14,
+                                fontSize: width*0.037,
                                 fontweigth: FontWeight.bold,
                               ),
                             ),

@@ -1,5 +1,7 @@
 import 'package:cashcue/util/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ForgotScreen extends StatefulWidget {
   const ForgotScreen({super.key});
@@ -9,7 +11,46 @@ class ForgotScreen extends StatefulWidget {
 }
 
 class _ForgotScreenState extends State<ForgotScreen> {
-  
+  final TextEditingController _emailController = TextEditingController();
+  bool _isLoading = false;
+
+  Future<void> _forgot() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    final String email = _emailController.text.trim();
+    
+    if (email.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter your email')));
+      setState(() {
+        _isLoading = false;
+      });
+      return;
+    }
+    final Uri url = Uri.parse('https://cash-cue.onrender.com/user/forgot-password');
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'email': email,
+      }),
+    );
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data['success'] == true) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Email send successful')));
+        //Navigator.pushReplacementNamed(context, '/home');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['message'] ?? 'Email sending failed')));
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('An error occurred. Please try again.')));
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     double height =  MediaQuery.of(context).size.height;
@@ -19,8 +60,8 @@ class _ForgotScreenState extends State<ForgotScreen> {
       body: Stack(
         children: [
           SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width:  MediaQuery.of(context).size.width,
+              height: height,
+              width:  width,
               child: Image.asset(
                 "assets/images/forgot.png",
                 fit: BoxFit.cover,
@@ -45,14 +86,15 @@ class _ForgotScreenState extends State<ForgotScreen> {
                     hintColor: const Color(0xFF8391A1),
                     fillColor: const Color(0xFFF7F8F9),
                     textColor: const Color(0xFF8391A1),
+                    controller: _emailController,
                   ),
                   SizedBox(height: 16),
                   SizedBox(
                     height: 56,
                     width: double.infinity,
                     child: CustomElevatedButton(
-                      text: 'Send Email', 
-                      onPressed: (){Navigator.pushReplacementNamed(context, '/resend');}, 
+                      text: _isLoading ? 'Sending...' : 'Send Email', 
+                      onPressed: _forgot, 
                       backgroundcolor: const Color(0xFFB968E7), 
                       textcolor: Colors.white,
                       bordercolor: const Color(0xFFB968E7)),

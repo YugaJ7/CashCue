@@ -44,7 +44,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['message'] ?? 'Registration successful')));
-      //Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacementNamed(context, '/login');
     } else {
       final errorMessage = jsonDecode(response.body)['message'] ?? 'Registration failed';
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(errorMessage)));
@@ -130,10 +130,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const CustomText(text: 'Have an account?', color: Color(0xFFA33CEB), fontfamily: 'Urbanist',fontSize: 14, fontweigth: FontWeight.w500),
+                            CustomText(text: 'Have an account?', color: const Color(0xFFA33CEB), fontfamily: 'Urbanist',fontSize: width*0.037, fontweigth: FontWeight.w500),
                             TextButton(
                               onPressed: (){Navigator.pushReplacementNamed(context, '/login');}, 
-                              child: const CustomText(text: 'Sign in Now', color: Color(0xFF1E122B), fontfamily: 'Urbanist',fontSize: 14, fontweigth: FontWeight.bold))
+                              child: CustomText(text: 'Sign in Now', color: const Color(0xFF1E122B), fontfamily: 'Urbanist',fontSize: width*0.037, fontweigth: FontWeight.bold))
                           ],
                         ),
                         SizedBox(height: height*.017,)
