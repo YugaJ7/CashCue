@@ -78,6 +78,7 @@ class CustomElevatedButton extends StatelessWidget {
 
 class CustomTextField extends StatelessWidget {
   final String hintText;
+  final double hintSize;
   final ValueChanged<String>? onChanged;
   final TextEditingController? controller;
   final Color? fillColor;
@@ -90,6 +91,7 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
     required this.hintText,
+    required this.hintSize,
     this.onChanged,
     this.controller,
     this.fillColor,
@@ -111,7 +113,7 @@ class CustomTextField extends StatelessWidget {
         hintText: hintText,
         fillColor: fillColor,
         filled: filled,
-        hintStyle: TextStyle(color: hintColor),
+        hintStyle: GoogleFonts.urbanist(color: hintColor, fontSize: hintSize),
         contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),

@@ -12,6 +12,8 @@ class _ForgotScreenState extends State<ForgotScreen> {
   
   @override
   Widget build(BuildContext context) {
+    double height =  MediaQuery.of(context).size.height;
+    double width =  MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
@@ -37,11 +39,12 @@ class _ForgotScreenState extends State<ForgotScreen> {
                   const CustomText(
                     text: 'Don\'t worry! It occurs. Please enter the email address linked with your account.', color: Color(0xFF8391A1), fontfamily: 'Urbanist',fontSize: 16,fontweigth: FontWeight.w500,),
                   SizedBox(height: MediaQuery.of(context).size.height*.08,),
-                  const CustomTextField(
+                  CustomTextField(
                     hintText: 'Enter your email',
-                    hintColor: Color(0xFF8391A1),
-                    fillColor: Color(0xFFF7F8F9),
-                    textColor: Color(0xFF8391A1),
+                    hintSize: width*0.04,
+                    hintColor: const Color(0xFF8391A1),
+                    fillColor: const Color(0xFFF7F8F9),
+                    textColor: const Color(0xFF8391A1),
                   ),
                   SizedBox(height: 16),
                   SizedBox(
