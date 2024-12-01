@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cashcue/controller/login_controller.dart';
 import 'package:cashcue/util/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -18,46 +19,39 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _obscureText = true;
   bool _isLoading = false;
 
-  Future<void> _login() async {
-    setState(() {
-      _isLoading = true;
-    });
+  // Future<void> _login() async {
+  //   setState(() {
+  //     _isLoading = true;
+  //   });
 
-    final String email = _emailController.text.trim();
-    final String password = _passwordController.text.trim();
+  //   final String email = _emailController.text.trim();
+  //   final String password = _passwordController.text.trim();
 
-    if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please fill in all fields')));
-      setState(() {
-        _isLoading = false;
-      });
-      return;
-    }
-    final Uri url = Uri.parse('https://cash-cue.onrender.com/user/signin');
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'email': email,
-        'password': password,
-      }),
-    );
+  //   final Uri url = Uri.parse('https://cash-cue.onrender.com/user/signin');
+  //   final response = await http.post(
+  //     url,
+  //     headers: {'Content-Type': 'application/json'},
+  //     body: jsonEncode({
+  //       'email': email,
+  //       'password': password,
+  //     }),
+  //   );
 
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      if (data['success'] == true) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Login successful')));
-        //Navigator.pushReplacementNamed(context, '/home');
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['message'] ?? 'Login failed')));
-      }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('An error occurred. Please try again.')));
-    }
-    setState(() {
-      _isLoading = false;
-    });
-  }
+  //   if (response.statusCode == 200) {
+  //     final data = jsonDecode(response.body);
+  //     if (data['success'] == true) {
+  //       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Login successful')));
+  //       //Navigator.pushReplacementNamed(context, '/home');
+  //     } else {
+  //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['message'] ?? 'Login failed')));
+  //     }
+  //   } else {
+  //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('An error occurred. Please try again.')));
+  //   }
+  //   setState(() {
+  //     _isLoading = false;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +85,21 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: double.infinity,
                           child: CustomElevatedButton(
                             text: _isLoading ? 'Loading...' : 'Login',
-                            onPressed: _login,
+                            onPressed: () async {
+                              if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please fill in all fields')));
+                                return;
+                              }
+                              else{
+                                setState(() {
+                                  _isLoading = true;
+                                });
+                                await login(context: context, email: _emailController.text.trim(), password: _passwordController.text.trim());
+                                setState(() {
+                                  _isLoading = false;
+                                });
+                              }
+                            },
                             backgroundcolor: const Color(0xFFB968E7),
                             textcolor: Colors.white,
                             bordercolor: const Color(0xFFB968E7),
