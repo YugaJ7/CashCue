@@ -1,7 +1,9 @@
-import 'package:cashcue/util/widgets.dart';
+import 'package:cashcue/widgets/text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+
+import '../controller/forgot_controller.dart';
+import '../widgets/elevated_button.dart';
+import '../widgets/text.dart';
 
 class ForgotScreen extends StatefulWidget {
   const ForgotScreen({super.key});
@@ -14,43 +16,43 @@ class _ForgotScreenState extends State<ForgotScreen> {
   final TextEditingController _emailController = TextEditingController();
   bool _isLoading = false;
 
-  Future<void> _forgot() async {
-    setState(() {
-      _isLoading = true;
-    });
+  // Future<void> _forgot() async {
+  //   setState(() {
+  //     _isLoading = true;
+  //   });
 
-    final String email = _emailController.text.trim();
+  //   final String email = _emailController.text.trim();
     
-    if (email.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter your email')));
-      setState(() {
-        _isLoading = false;
-      });
-      return;
-    }
-    final Uri url = Uri.parse('https://cash-cue.onrender.com/user/forgot-password');
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'email': email,
-      }),
-    );
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      if (data['success'] == true) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Email send successful')));
-        //Navigator.pushReplacementNamed(context, '/home');
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['message'] ?? 'Email sending failed')));
-      }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('An error occurred. Please try again.')));
-    }
-    setState(() {
-      _isLoading = false;
-    });
-  }
+  //   if (email.isEmpty) {
+  //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter your email')));
+  //     setState(() {
+  //       _isLoading = false;
+  //     });
+  //     return;
+  //   }
+  //   final Uri url = Uri.parse('https://cash-cue.onrender.com/user/forgot-password');
+  //   final response = await http.post(
+  //     url,
+  //     headers: {'Content-Type': 'application/json'},
+  //     body: jsonEncode({
+  //       'email': email,
+  //     }),
+  //   );
+  //   if (response.statusCode == 200) {
+  //     final data = jsonDecode(response.body);
+  //     if (data['success'] == true) {
+  //       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Email send successful')));
+  //       //Navigator.pushReplacementNamed(context, '/home');
+  //     } else {
+  //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['message'] ?? 'Email sending failed')));
+  //     }
+  //   } else {
+  //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('An error occurred. Please try again.')));
+  //   }
+  //   setState(() {
+  //     _isLoading = false;
+  //   });
+  // }
   @override
   Widget build(BuildContext context) {
     double height =  MediaQuery.of(context).size.height;
@@ -94,7 +96,21 @@ class _ForgotScreenState extends State<ForgotScreen> {
                     width: double.infinity,
                     child: CustomElevatedButton(
                       text: _isLoading ? 'Sending...' : 'Send Email', 
-                      onPressed: _forgot, 
+                      onPressed: () async {
+                        if (_emailController.text.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter your email')));
+                          return;
+                        }
+                        else{
+                          setState(() {
+                            _isLoading = true;
+                          });
+                          await forgot(context: context, email: _emailController.text.trim());
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        }
+                      },
                       backgroundcolor: const Color(0xFFB968E7), 
                       textcolor: Colors.white,
                       bordercolor: const Color(0xFFB968E7)),

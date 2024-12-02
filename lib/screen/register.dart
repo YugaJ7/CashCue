@@ -1,8 +1,10 @@
-import 'package:cashcue/util/widgets.dart';
+import 'package:cashcue/widgets/social_button.dart';
+import 'package:cashcue/widgets/text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../controller/register_controller.dart';
+import '../widgets/elevated_button.dart';
+import '../widgets/text.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -18,14 +20,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _confirmPasswordController = TextEditingController();
   bool _isLoading = false;
   bool _obscureText = true;
-  //@override
-  // void dispose() {
-  //   _usernameController.dispose();
-  //   _emailController.dispose();
-  //   _passwordController.dispose();
-  //   _confirmPasswordController.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,14 +96,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ],
                         ),
                         const SizedBox(height: 25),
-                        Row(
+                        const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            _socialLoginButton('assets/images/facebook.svg'),
-                            const SizedBox(width: 8),
-                            _socialLoginButton('assets/images/google.svg'),
-                            const SizedBox(width: 8),
-                            _socialLoginButton('assets/images/apple.svg'),
+                            SocialButton(imagePath: 'assets/images/facebook.svg'),
+                            SizedBox(width: 8),
+                            SocialButton(imagePath: 'assets/images/google.svg'),
+                            SizedBox(width: 8),
+                            SocialButton(imagePath: 'assets/images/apple.svg'),
                           ],
                         ),
                         Row(
@@ -227,19 +229,3 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 }
-
-Widget _socialLoginButton(String imagePath) {
-    return Container(
-      height: 52,
-      width: 100,
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey[300]!),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Center(
-        child: SvgPicture.asset(
-          imagePath,
-        ),
-      ),
-    );
-  }

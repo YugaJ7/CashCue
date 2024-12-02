@@ -7,8 +7,16 @@ Future<Map<String, dynamic>> registerUser({required String name, required String
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'name': name, 'email': email, 'password': password}),
     );
+    print(response.statusCode);
+    print(response.body);
     if (response.statusCode == 200) {
-      return {'success': true, 'data': jsonDecode(response.body)};
+      final x = jsonDecode(response.body);
+      if(x['status']=='FAILED'){
+        return {'success': false, 'data': jsonDecode(response.body)};
+      }
+      else{
+        return {'success': true, 'data': jsonDecode(response.body)};
+      }
     } else {
       final error = jsonDecode(response.body);
       return {'success': false, 'message': error['message'] ?? 'An error occurred'};

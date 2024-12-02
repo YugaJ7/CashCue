@@ -1,5 +1,5 @@
-import 'package:cashcue/util/widgets.dart';
 import 'package:flutter/material.dart';
+import '../widgets/elevated_button.dart';
 
 class LoginRegisterScreen extends StatelessWidget {
   const LoginRegisterScreen({super.key});

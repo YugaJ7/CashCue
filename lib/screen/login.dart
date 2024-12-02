@@ -1,10 +1,10 @@
-import 'dart:convert';
 import 'package:cashcue/controller/login_controller.dart';
-import 'package:cashcue/util/widgets.dart';
+import 'package:cashcue/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
+import '../widgets/elevated_button.dart';
+import '../widgets/text.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,40 +19,36 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _obscureText = true;
   bool _isLoading = false;
 
-  // Future<void> _login() async {
-  //   setState(() {
-  //     _isLoading = true;
-  //   });
+// Future<void> _google() async {
+//     setState(() {
+//       _isLoading = true;
+//     });
 
-  //   final String email = _emailController.text.trim();
-  //   final String password = _passwordController.text.trim();
+//     final Uri url = Uri.parse('https://cash-cue.onrender.com/user/auth/facebook');
+//     final response = await http.post(
+//       url,
+//       // headers: {'Content-Type': 'application/json'},
+//       // body: jsonEncode({
+//       //   'email': email,
+//       //   'password': password,
+//       // }),
+//     );
 
-  //   final Uri url = Uri.parse('https://cash-cue.onrender.com/user/signin');
-  //   final response = await http.post(
-  //     url,
-  //     headers: {'Content-Type': 'application/json'},
-  //     body: jsonEncode({
-  //       'email': email,
-  //       'password': password,
-  //     }),
-  //   );
-
-  //   if (response.statusCode == 200) {
-  //     final data = jsonDecode(response.body);
-  //     if (data['success'] == true) {
-  //       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Login successful')));
-  //       //Navigator.pushReplacementNamed(context, '/home');
-  //     } else {
-  //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['message'] ?? 'Login failed')));
-  //     }
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('An error occurred. Please try again.')));
-  //   }
-  //   setState(() {
-  //     _isLoading = false;
-  //   });
-  // }
-
+//     if (response.statusCode == 200) {
+//       final data = jsonDecode(response.body);
+//       if (data['success'] == true) {
+//         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Login successful')));
+//         //Navigator.pushReplacementNamed(context, '/home');
+//       } else {
+//         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['message'] ?? 'Login failed')));
+//       }
+//     } else {
+//       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('An error occurred. Please try again.')));
+//     }
+//     setState(() {
+//       _isLoading = false;
+//     });
+//   }
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
@@ -126,11 +122,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            _socialLoginButton('assets/images/facebook.svg'),
+                            _socialLoginButton('assets/images/facebook.svg',(){}),
                             const SizedBox(width: 8),
-                            _socialLoginButton('assets/images/google.svg'),
+                            _socialLoginButton('assets/images/google.svg',(){}),
                             const SizedBox(width: 8),
-                            _socialLoginButton('assets/images/apple.svg'),
+                            _socialLoginButton('assets/images/apple.svg',(){}),
                           ],
                         ),
                         Row(
@@ -267,7 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-Widget _socialLoginButton(String imagePath) {
+Widget _socialLoginButton(String imagePath, VoidCallback ontap) {
   return Container(
     height: 52,
     width: 100,
@@ -275,9 +271,12 @@ Widget _socialLoginButton(String imagePath) {
       border: Border.all(color: Colors.grey[300]!),
       borderRadius: BorderRadius.circular(10),
     ),
-    child: Center(
-      child: SvgPicture.asset(
-        imagePath,
+    child: GestureDetector(
+      onTap: ontap,
+      child: Center(
+        child: SvgPicture.asset(
+          imagePath,
+        ),
       ),
     ),
   );

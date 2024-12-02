@@ -6,13 +6,13 @@ Future<void> register({required BuildContext context,required String name,requir
   
   if (result['success']) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(result['data']['message'] ?? 'Registration successful'))
+      SnackBar(content: Text(result['data']['message']))
      );
     Navigator.pushReplacementNamed(context, '/login');
   } 
   else {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(result['message']))
+      SnackBar(content: Text(result['data']['message']))
       );
     }
   }
