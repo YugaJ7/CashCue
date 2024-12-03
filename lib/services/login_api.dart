@@ -18,13 +18,10 @@ import 'package:http/http.dart' as http;
       final data = jsonDecode(response.body);
       if (data['success'] == true) {
         return {'success': true, 'data': 'Login Done'};
-        //Navigator.pushReplacementNamed(context, '/home');
       } else {
         return {'success': true, 'data': jsonDecode(response.body)?? 'Login failed'};
       }
-      //return {'success': true, 'data': jsonDecode(response.body)};
     } else {
-      //final error = jsonDecode(response.body);
       return {'success': false, 'message': 'An error occurred'};
     }
   }
