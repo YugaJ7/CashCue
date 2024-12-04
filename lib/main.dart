@@ -1,3 +1,4 @@
+import 'package:cashcue/screen/add_screen.dart';
 import 'package:cashcue/screen/forgot_screen.dart';
 import 'package:cashcue/screen/home_screen.dart';
 import 'package:cashcue/screen/login.dart';
@@ -14,11 +15,13 @@ void main()
       initialRoute: '/',
       routes:
       {
-        '/' : (context) => const Navbar(),
+        '/' : (context) => const SplashScreen(),
         '/login' : (context) => const LoginScreen(),
         '/register' : (context) => const RegisterScreen(),
         '/forgot' : (context) => ForgotScreen(),
-        '/home' : (context) => ForgotScreen(),
+        '/navbar' : (context) => Navbar(),
+        '/home' : (context) => HomeScreen(),
+        '/add_expense' : (context) => ExpenseIncomeScreen()
       },
    )
   );

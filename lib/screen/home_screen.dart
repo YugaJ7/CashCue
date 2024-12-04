@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:cashcue/widgets/elevated_button.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/text.dart';
 
@@ -11,11 +15,57 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
+  List<Map<String, dynamic>> transactions = []; 
+  bool isLoading = true; 
+  final String apiUrl = "https://cash-cue.onrender.com/expense/list"; 
+
+  @override
+  void initState() {
+    super.initState();
+    fetchExpenses(); 
+  }
+
+  Future<void> fetchExpenses() async {
+  final prefs = await SharedPreferences.getInstance();
+  final token = prefs.getString('authToken');
+  print(token); 
+  try {
+    final response = await http.get(
+      Uri.parse(apiUrl),
+      headers: {
+        "Authorization": "Bearer $token", // Passing the token
+        "Content-Type": "application/json",
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final decodedData = jsonDecode(response.body);
+
+      // Ensure the response contains 'expenses' key
+      if (decodedData is Map<String, dynamic> && decodedData['expenses'] != null) {
+        setState(() {
+          transactions = List<Map<String, dynamic>>.from(decodedData['expenses']);
+          print(transactions);
+          isLoading = false; // Stop the loading spinner
+        });
+      } else {
+        throw Exception('Unexpected response format: Missing "expenses" key');
+      }
+    } else {
+      throw Exception('Failed to load expenses. Status code: ${response.statusCode}');
+    }
+  } catch (error) {
+    setState(() {
+      isLoading = false; // Stop spinner even on error
+    });
+    print("Error fetching expenses: $error");
+  }
+}
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-print(height);
+    print(height);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -27,7 +77,7 @@ print(height);
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment(-0.00, -10.00),
-                  end: Alignment(0, 1),
+                  end: Alignment(0, .5),
                   colors: [Color.fromRGBO(185, 104, 231, 0.5), Colors.white],
                 ),
               ),
@@ -40,14 +90,14 @@ print(height);
                     children: [
                       CircleAvatar(
                         radius: width*.065,
-                        backgroundColor: Color(0xFFB968E7),
+                        backgroundColor: const Color(0xFFB968E7),
                         child:  CircleAvatar(radius: width*.06,child: Image.asset('assets/images/avatar.png')),
                       ),
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
                         decoration: ShapeDecoration(
                           shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 1, color: Color(0xFFB968E7)),
+                            side: const BorderSide(width: 1, color: Color(0xFFB968E7)),
                             borderRadius: BorderRadius.circular(40),
                           ),
                         ),
@@ -109,7 +159,7 @@ print(height);
                           child: Row(
                             children: [
                               Image.asset('assets/images/in.png',width: width*0.128,height: width*0.128,),
-                              SizedBox(width: 8),
+                              const SizedBox(width: 8),
                               Column(
                                 children: [
                                   CustomText(text: 'Income', color: Colors.white, fontfamily: 'Poppins', fontSize: width*0.04,fontweigth: FontWeight.w500,),
@@ -132,7 +182,7 @@ print(height);
                           child: Row(
                             children: [
                               Image.asset('assets/images/out.png',width: width*0.128,height: width*0.128,),
-                              SizedBox(width: 8),
+                              const SizedBox(width: 8),
                               Column(
                                 children: [
                                   CustomText(text: 'Expense', color: Colors.white, fontfamily: 'Poppins', fontSize: width*0.04,fontweigth: FontWeight.w500,),
@@ -156,23 +206,7 @@ print(height);
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomText(text: "Average money spent", color: Color.fromRGBO(146, 145, 165, 1), fontfamily: 'Poppins',fontSize: width*.045,fontweigth: FontWeight.w600,),
-                            DropdownButton<String>(
-                              value: 'Weekly',
-                              items: ['Daily', 'Weekly', 'Monthly']
-                                  .map((filter) => DropdownMenuItem(
-                                        value: filter,
-                                        child: Text(filter),
-                                      ))
-                                  .toList(),
-                              onChanged: (value) {},
-                              underline: const SizedBox(),
-                            ),
-                          ],
-                        ),
+                        CustomText(text: "Average money spent", color: const Color.fromRGBO(146, 145, 165, 1), fontfamily: 'Poppins',fontSize: width*.045,fontweigth: FontWeight.w600,),
                         CustomText(text: '\$1000', color: Colors.black, fontfamily: 'Poppins',fontSize: width*0.05,fontweigth: FontWeight.w600,),
                         const SizedBox(height: 16),
                         // Placeholder for graph
@@ -193,35 +227,36 @@ print(height);
                       _buildTabButton("Week", 1),
                       _buildTabButton("Month", 2),
                     ],
-                  ),
+             ),
+             SizedBox(height: 8),
             // Recent Transactions
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text("Recent Transaction",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 16)),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all()
-                  ),
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text("See All"),
-                  ),
-                ),
-              ],
+            Container(
+              width: width,
+              height: height*0.05,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const CustomText(text: "Recent Transaction", color:  Color.fromRGBO(30, 18, 43, 1), fontfamily: 'Poppins', fontSize: 18, fontweigth: FontWeight.w600,),
+                  CustomElevatedButton(text: "See All", onPressed: (){}, backgroundcolor: const Color(0xFFE9C1FF), textcolor: Color.fromRGBO(112, 65, 163, 1), bordercolor: Colors.transparent,)
+                ],
+              ),
             ),
-            const SizedBox(height: 8),
-            Column(
-              children: [
-                transactionItem("Food", "Buy a ramen", "₹32", "07:30 PM"),
-                transactionItem(
-                    "Shopping", "Buy some grocery", "₹120", "10:00 AM"),
-                transactionItem("Subscription", "Disney+ Annual", "₹80",
-                    "03:30 PM"),
-              ],
-            ),
+            transactions.isEmpty
+                            ? const Center(
+                                child: Text(
+                                  "No Transactions Found",
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              )
+                            : Column(
+                                children: transactions
+                                    .map((transaction) => transactionItem(
+                                          transaction['description'],
+                                          "₹${transaction['amount']}",
+                                          transaction['date'],
+                                        ))
+                                    .toList(),
+                              ),
                 ],
               )
             ),
@@ -231,28 +266,27 @@ print(height);
     );
   }
 
-  Widget transactionItem(String title, String subtitle, String amount,
-      String time) {
-    return ListTile(
-      leading: const Icon(Icons.fastfood, color: Colors.purple),
-      title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-      subtitle: Text(subtitle),
-      trailing: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "- $amount",
-            style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 4),
-          Text(time, style: const TextStyle(color: Colors.grey)),
-        ],
-      ),
-    );
-  }
+  Widget transactionItem(String? title, String? amount, String? time) {
+  return Padding(
+    padding: const EdgeInsets.all( 8.0),
+    child: Column(
+      children: [
+        Row(
+          children: [
+            CustomText(text: title ?? 'No Title', color: Color.fromRGBO(41, 43, 45, 1), fontfamily: 'Poppins', fontSize: 16, fontweigth: FontWeight.w500,),
+            Spacer(),
+            CustomText(text: "- ${amount ?? '₹0'}", color: Colors.red, fontfamily: 'Poppins', fontSize: 14, fontweigth: FontWeight.w600,),
+          ],
+        ),
+        Align(
+          alignment: Alignment.bottomRight,
+          child: CustomText(text: time ?? 'No Time', color: Color.fromRGBO(145, 145, 159, 1), fontfamily: 'Poppins', fontSize: 12, fontweigth: FontWeight.w500,)),
+      ],
+    ),
+  );
+}
   Widget _buildTabButton(String title, int index) {
     final isSelected = selectedIndex == index;
-
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -261,15 +295,15 @@ print(height);
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? Color(0xFFE9C1FF) : null,
-          borderRadius: BorderRadius.circular(10),
+          color: isSelected ? const Color(0xFFE9C1FF) : null,
+          borderRadius: BorderRadius.circular(12),
         ),
         child: Text(
           title,
           style: TextStyle(
-            color: isSelected ? Color(0xFF7041A3) : Colors.grey,
+            color: isSelected ? const Color(0xFF7041A3) : Colors.grey,
             fontSize: 16,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
           ),

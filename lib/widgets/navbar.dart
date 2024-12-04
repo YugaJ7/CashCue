@@ -111,6 +111,8 @@
 //   }
 // }
 
+import 'package:cashcue/screen/add_screen.dart';
+import 'package:cashcue/screen/transaction_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../screen/home_screen.dart';
@@ -124,58 +126,60 @@ class Navbar extends StatefulWidget {
 
 class _NavbarState extends State<Navbar> {
   int _selectedIndex = 0;
-  late final List<Widget> _pages;
 
   @override
-  void initState() {
-    super.initState();
-    _pages = [
-      HomeScreen(),  
-    ];
-  }
- @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex],
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: const [
+          HomeScreen(),
+          TransactionScreen(),
+          SizedBox.shrink(), // Placeholder for the Add screen
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
-            currentIndex: _selectedIndex,
-            onTap:(int index) {
-                  setState(() {
-                    _selectedIndex = index;
-                  });
-                
-              },
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: Colors.white,
-            selectedItemColor: Colors.purple,
-            unselectedItemColor: Colors.grey,
-            items: const [
-              BottomNavigationBarItem(
-                icon: ImageIcon(AssetImage('assets/images/home.png')),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: ImageIcon(AssetImage('assets/images/transaction.png')),
-                label: 'Transaction',
-              ),
-              BottomNavigationBarItem(
-                icon: ImageIcon(AssetImage('assets/images/add.png')),
-                label: 'Add',
-              ),
-              BottomNavigationBarItem(
-                icon: ImageIcon(AssetImage('assets/images/analysis.png')),
-                label: 'Analysis',
-              ),
-              BottomNavigationBarItem(
-                icon: ImageIcon(AssetImage('assets/images/group.png')),
-                label: 'Group',
-              ),
-            ],
+        currentIndex: _selectedIndex,
+        onTap: (int index) {
+          if (index == 2) {
+            // Push ExpenseIncomeScreen without replacing
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ExpenseIncomeScreen()),
+            );
+          } else {
+            setState(() {
+              _selectedIndex = index;
+            });
+          }
+        },
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
+        selectedItemColor: Colors.purple,
+        unselectedItemColor: Colors.grey,
+        items: const [
+          BottomNavigationBarItem(
+            icon: ImageIcon(AssetImage('assets/images/home.png')),
+            label: 'Home',
           ),
+          BottomNavigationBarItem(
+            icon: ImageIcon(AssetImage('assets/images/transaction.png')),
+            label: 'Transaction',
+          ),
+          BottomNavigationBarItem(
+            icon: ImageIcon(AssetImage('assets/images/add.png')),
+            label: 'Add',
+          ),
+          BottomNavigationBarItem(
+            icon: ImageIcon(AssetImage('assets/images/analysis.png')),
+            label: 'Analysis',
+          ),
+          BottomNavigationBarItem(
+            icon: ImageIcon(AssetImage('assets/images/group.png')),
+            label: 'Group',
+          ),
+        ],
+      ),
     );
   }
 }
-
-
-
-

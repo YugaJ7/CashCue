@@ -7,6 +7,7 @@ class CustomTextField extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final TextEditingController? controller;
   final Color? fillColor;
+  final Color? borderColor;
   final Color? textColor;
   final Color? hintColor;
   final double borderRadius;
@@ -20,6 +21,7 @@ class CustomTextField extends StatelessWidget {
     this.onChanged,
     this.controller,
     this.fillColor,
+    this.borderColor,
     this.textColor,
     this.hintColor,
     this.borderRadius = 8.0,
@@ -42,11 +44,11 @@ class CustomTextField extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: BorderSide(width: 1, color: Color(0xFFDADADA)),
+          borderSide: BorderSide(width: 1, color: borderColor??Color(0xFFDADADA)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(borderRadius),
-          borderSide: BorderSide(width: 1, color: Color(0xFFDADADA))
+          borderSide: BorderSide(width: 1, color:borderColor??Color(0xFFDADADA))
         ),
         //focusColor: const Color(0xFFDADADA)
       ),

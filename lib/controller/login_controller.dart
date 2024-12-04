@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../services/login_api.dart';
-
 Future<void> login(
       {required BuildContext context,
       required String email,
@@ -11,7 +10,7 @@ Future<void> login(
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(result['data']['message'] ?? 'Login successful')),
       );
-      //Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacementNamed(context, '/navbar');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(result['message'])),

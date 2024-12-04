@@ -39,6 +39,8 @@ dependencies:
   flutter_svg: ^2.0.16
   http: ^1.2.2
   persistent_bottom_nav_bar: ^6.2.1
+  board_datetime_picker: ^2.1.6
+  shared_preferences: ^2.3.3
 
 dev_dependencies:
   flutter_test:
