@@ -1,9 +1,11 @@
+import 'package:cashcue/controller/home_contoller.dart';
 import 'package:cashcue/widgets/date_time.dart';
 import 'package:cashcue/widgets/elevated_button.dart';
 import 'package:cashcue/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:board_datetime_picker/board_datetime_picker.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert'; // For JSON encoding
 import '../widgets/text.dart';
@@ -63,6 +65,8 @@ class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
+      final homeController = Provider.of<HomeController>(context, listen: false);
+      homeController.loadExpenses();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Data stored successfully")),
       );
@@ -72,8 +76,9 @@ class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
         selectedDateTime = "";
       });
       Future.delayed(Duration.zero, () {
-    Navigator.pop(context); // Delay to ensure the UI updates first
-  });
+        Navigator.pop(context); 
+      }
+    );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Failed to store data: ${response.body}")),

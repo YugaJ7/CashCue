@@ -6,23 +6,37 @@ import 'package:cashcue/screen/register.dart';
 import 'package:cashcue/screen/splash_page.dart';
 import 'package:cashcue/widgets/navbar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'controller/home_contoller.dart';
 
-void main()
-{
-  return runApp(
-    MaterialApp(
+void main() {
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => HomeController()),
+      ],
+      child: const MyApp(),
+    ),
+  );
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
-      routes:
-      {
-        '/' : (context) => const SplashScreen(),
-        '/login' : (context) => const LoginScreen(),
-        '/register' : (context) => const RegisterScreen(),
-        '/forgot' : (context) => ForgotScreen(),
-        '/navbar' : (context) => Navbar(),
-        '/home' : (context) => HomeScreen(),
-        '/add_expense' : (context) => ExpenseIncomeScreen()
+      routes: {
+        '/': (context) => const SplashScreen(),
+        '/login': (context) => const LoginScreen(),
+        '/register': (context) => const RegisterScreen(),
+        '/forgot': (context) => ForgotScreen(),
+        '/navbar': (context) => Navbar(),
+        '/home': (context) => const HomeScreen(),
+        '/add_expense': (context) => ExpenseIncomeScreen(),
       },
-   )
-  );
+    );
+  }
 }
