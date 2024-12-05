@@ -7,7 +7,7 @@ import 'package:board_datetime_picker/board_datetime_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert'; // For JSON encoding
+import 'dart:convert'; 
 import '../widgets/text.dart';
 
 class ExpenseIncomeScreen extends StatefulWidget {
@@ -68,7 +68,7 @@ class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
       final homeController = Provider.of<HomeController>(context, listen: false);
       homeController.loadExpenses();
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Data stored successfully")),
+        const SnackBar(content: Text("Storing successfully")),
       );
       _amountController.clear();
       _descriptionController.clear();
@@ -200,17 +200,25 @@ class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
                       hintColor: const Color.fromRGBO(143, 142, 148, 1),
                       fillColor: Colors.transparent,
                       borderRadius: 16,
-                      borderColor:
-                          const Color.fromRGBO(185, 104, 231, 0.5),
+                      borderColor:const Color.fromRGBO(185, 104, 231, 0.5),
                     ),
-                    const SizedBox(height: 20),
-                    PickerItemWidget(
-                      pickerType: DateTimePickerType.datetime,
-                      onDateTimeChanged: (dateTime) {
-                        setState(() {
-                          selectedDateTime = dateTime.toIso8601String();
-                        });
-                      },
+                    const SizedBox(height: 10),
+                    Container(
+                      padding: EdgeInsets.symmetric(vertical: 5),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: const Color.fromRGBO(185, 104, 231, 0.5),
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(16))
+                      ),
+                      child: PickerItemWidget(
+                        pickerType: DateTimePickerType.datetime,
+                        onDateTimeChanged: (dateTime) {
+                          setState(() {
+                            selectedDateTime = dateTime.toIso8601String();
+                          });
+                        },
+                      ),
                     ),
                     const SizedBox(height: 20),
                     SizedBox(

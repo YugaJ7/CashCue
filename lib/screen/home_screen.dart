@@ -61,26 +61,26 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Image.asset('assets/images/avatar.png')),
                         ),
                         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          decoration: ShapeDecoration(
-            shape: RoundedRectangleBorder(
-              side: const BorderSide(width: 1, color: Color(0xFFB968E7)),
-              borderRadius: BorderRadius.circular(40),
-            ),
-          ),
-          child: DropdownButton<String>(
-            menuMaxHeight: height * 0.3,
-            value: 'March',
-            items: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-                .map((month) => DropdownMenuItem(
-                      value: month,
-                      child: Text(month),
-                    ))
-                .toList(),
-            onChanged: (value) {},
-            underline: const SizedBox(),
-          ),
-        ),
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          decoration: ShapeDecoration(
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(width: 1, color: Color(0xFFB968E7)),
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                          ),
+                          child: DropdownButton<String>(
+                            menuMaxHeight: height * 0.3,
+                            value: 'March',
+                            items: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+                                .map((month) => DropdownMenuItem(
+                                      value: month,
+                                      child: Text(month),
+                                    ))
+                                .toList(),
+                            onChanged: (value) {},
+                            underline: const SizedBox(),
+                          ),
+                        ),
                         Stack(
                           children: [
                             const Icon(Icons.notifications,
@@ -252,7 +252,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 }).toList(), 
                               ),
                   ],
-                )),
+                )
+              ),
           ],
         ),
       ),
