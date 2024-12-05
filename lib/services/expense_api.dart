@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ExpenseService {
-  final String apiUrl = "https://cash-cue.onrender.com/expense/list";
+  final String apiUrl = "https://cash-cue.onrender.com/transaction/list";
 
   Future<List<Map<String, dynamic>>> fetchExpenses() async {
     final prefs = await SharedPreferences.getInstance();
@@ -21,13 +21,14 @@ class ExpenseService {
 
     if (response.statusCode == 200) {
       final decodedData = jsonDecode(response.body);
-      if (decodedData is Map<String, dynamic> && decodedData['expenses'] != null) {
-        return List<Map<String, dynamic>>.from(decodedData['expenses']);
+      if (decodedData is Map<String, dynamic> && decodedData['transactions'] != null) {
+        print(decodedData['transactions']);
+        return List<Map<String, dynamic>>.from(decodedData['transactions']);
       } else {
-        throw Exception('Unexpected response format: Missing "expenses" key');
+        throw Exception('Unexpected response format: Missing "transactions" key');
       }
     } else {
-      throw Exception('Failed to load expenses. Status code: ${response.statusCode}');
+      throw Exception('Failed to load transactions. Status code: ${response.statusCode}');
     }
   }
 }

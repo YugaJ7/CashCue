@@ -1,23 +1,30 @@
+import 'package:cashcue/widgets/text.dart';
 import 'package:flutter/material.dart';
-import 'text.dart';
 
 class TransactionItem extends StatelessWidget {
-  final String? title;
-  final String? amount;
-  final String? time;
+  final String title;
+  final String amount;
+  final String time;
+  final Color color;
 
-  const TransactionItem({Key? key, this.title, this.amount, this.time}) : super(key: key);
+  const TransactionItem({
+    Key? key,
+    required this.title,
+    required this.amount,
+    required this.time,
+    required this.color,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
       child: Column(
         children: [
           Row(
             children: [
               CustomText(
-                text: title ?? 'No Title',
+                text: title,
                 color: Color.fromRGBO(41, 43, 45, 1),
                 fontfamily: 'Poppins',
                 fontSize: 16,
@@ -25,8 +32,8 @@ class TransactionItem extends StatelessWidget {
               ),
               Spacer(),
               CustomText(
-                text: "- ${amount ?? '₹0'}",
-                color: Colors.red,
+                text: amount,
+                color: color,
                 fontfamily: 'Poppins',
                 fontSize: 14,
                 fontweigth: FontWeight.w600,
@@ -36,7 +43,7 @@ class TransactionItem extends StatelessWidget {
           Align(
             alignment: Alignment.bottomRight,
             child: CustomText(
-              text: time ?? 'No Time',
+              text: time,
               color: Color.fromRGBO(145, 145, 159, 1),
               fontfamily: 'Poppins',
               fontSize: 12,

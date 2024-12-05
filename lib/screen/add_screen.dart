@@ -2,6 +2,7 @@ import 'package:cashcue/controller/home_contoller.dart';
 import 'package:cashcue/widgets/date_time.dart';
 import 'package:cashcue/widgets/elevated_button.dart';
 import 'package:cashcue/widgets/text_field.dart';
+import 'package:cashcue/widgets/toggle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:board_datetime_picker/board_datetime_picker.dart';
 import 'package:http/http.dart' as http;
@@ -23,7 +24,7 @@ class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
-  final String apiUrl = "https://cash-cue.onrender.com/expense/add"; 
+  final String apiUrl = "https://cash-cue.onrender.com/transaction/add";
 
   Future<void> _storeData() async {
   final double? amount = double.tryParse(_amountController.text.trim());
@@ -31,9 +32,7 @@ class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
   final String date = selectedDateTime;
 
   if (amount == null || description.isEmpty || date.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Please fill in all fields")),
-    );
+    _showAlertDialog("Error", "Please fill in all fields");
     return;
   }
 
@@ -42,13 +41,12 @@ class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
   print(token);
 
   if (token == null) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Authentication token not found")),
-    );
+    _showAlertDialog("Error", "Authentication token not found");
     return;
   }
 
   final Map<String, dynamic> data = {
+    "type": isExpense ? "Expense" : "Income", // Determine the type
     "amount": amount,
     "description": description,
     "date": date,
@@ -67,28 +65,40 @@ class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
     if (response.statusCode == 200 || response.statusCode == 201) {
       final homeController = Provider.of<HomeController>(context, listen: false);
       homeController.loadExpenses();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Storing successfully")),
-      );
+      _showAlertDialog("Success", "Transaction added successfully");
+
       _amountController.clear();
       _descriptionController.clear();
       setState(() {
         selectedDateTime = "";
       });
-      Future.delayed(Duration.zero, () {
-        Navigator.pop(context); 
-      }
-    );
+
+      Future.delayed(const Duration(seconds: 2), () {
+        Navigator.pop(context); // Close the screen after dialog
+      });
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Failed to store data: ${response.body}")),
-      );
+      _showAlertDialog("Error", "Failed to store data: ${response.body}");
     }
   } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Error: $e")),
-    );
+    _showAlertDialog("Error", "Error: $e");
   }
+}
+
+void _showAlertDialog(String title, String message) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text(title),
+      content: Text(message),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+    ),
+  );
+
+  Future.delayed(const Duration(seconds: 2), () {
+    Navigator.pop(context); // Automatically close the dialog after 2 seconds
+  });
 }
 
 
@@ -122,33 +132,41 @@ class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
                     },
                   ),
                   const SizedBox(width: 40),
-                  ToggleButtons(
-                    isSelected: [isExpense, !isExpense],
-                    onPressed: (index) {
+                  // ToggleButtons(
+                  //   isSelected: [isExpense, !isExpense],
+                  //   onPressed: (index) {
+                  //     setState(() {
+                  //       isExpense = index == 0;
+                  //     });
+                  //   },
+                  //   borderRadius: BorderRadius.circular(20),
+                  //   color: Colors.black,
+                  //   selectedColor: Colors.white,
+                  //   fillColor: const Color.fromRGBO(182, 76, 242, 1),
+                  //   children: const [
+                  //     Padding(
+                  //       padding: EdgeInsets.symmetric(horizontal: 20),
+                  //       child: CustomText(
+                  //         text: 'Expense',
+                  //         color: Colors.white,
+                  //         fontfamily: 'Urbanist',
+                  //         fontSize: 16,
+                  //         fontweigth: FontWeight.w500,
+                  //       ),
+                  //     ),
+                  //     Padding(
+                  //       padding: EdgeInsets.symmetric(horizontal: 20),
+                  //       child: Text('Income'),
+                  //     ),
+                  //   ],
+                  // ),
+                  ToggleButtonUI(
+                    isExpense: isExpense,
+                    onToggle: (value) {
                       setState(() {
-                        isExpense = index == 0;
+                        isExpense = value; // Update state based on toggle selection
                       });
                     },
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.black,
-                    selectedColor: Colors.white,
-                    fillColor: const Color.fromRGBO(182, 76, 242, 1),
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: CustomText(
-                          text: 'Expense',
-                          color: Colors.white,
-                          fontfamily: 'Urbanist',
-                          fontSize: 16,
-                          fontweigth: FontWeight.w500,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Text('Income'),
-                      ),
-                    ],
                   ),
                 ],
               ),
@@ -200,16 +218,18 @@ class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
                       hintColor: const Color.fromRGBO(143, 142, 148, 1),
                       fillColor: Colors.transparent,
                       borderRadius: 16,
-                      borderColor:const Color.fromRGBO(185, 104, 231, 0.5),
+                      borderColor:
+                          const Color.fromRGBO(185, 104, 231, 0.5),
                     ),
                     const SizedBox(height: 10),
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 5),
+                      padding: const EdgeInsets.symmetric(vertical: 5),
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: const Color.fromRGBO(185, 104, 231, 0.5),
                         ),
-                        borderRadius: BorderRadius.all(Radius.circular(16))
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(16)),
                       ),
                       child: PickerItemWidget(
                         pickerType: DateTimePickerType.datetime,

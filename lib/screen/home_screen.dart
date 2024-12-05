@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:intl/intl.dart';
 import '../controller/home_contoller.dart';
 import '../widgets/home_graph.dart';
 import '../widgets/text.dart';
@@ -28,6 +28,10 @@ class _HomeScreenState extends State<HomeScreen> {
     final homeController = Provider.of<HomeController>(context);
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    final DateTime today = DateTime.now();      
+    final DateFormat format2 = DateFormat('MMMM');
+    String month = format2.format(today);
+    print(month);
     print(height);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -39,8 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
-                    begin: Alignment(-0.00, -10.00),
-                    end: Alignment(0, .5),
+                    begin: Alignment(0.00, -10.00),
+                    end: Alignment(0, .1),
                     colors: [Color.fromRGBO(185, 104, 231, 0.5), Colors.white],
                   ),
                 ),
@@ -49,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(
                       height: 44,
                     ),
-                    // Header with profile, month dropdown, and notification
+                    // Header with profile, month
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -61,44 +65,16 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Image.asset('assets/images/avatar.png')),
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                           decoration: ShapeDecoration(
                             shape: RoundedRectangleBorder(
                               side: const BorderSide(width: 1, color: Color(0xFFB968E7)),
                               borderRadius: BorderRadius.circular(40),
                             ),
                           ),
-                          child: DropdownButton<String>(
-                            menuMaxHeight: height * 0.3,
-                            value: 'March',
-                            items: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-                                .map((month) => DropdownMenuItem(
-                                      value: month,
-                                      child: Text(month),
-                                    ))
-                                .toList(),
-                            onChanged: (value) {},
-                            underline: const SizedBox(),
-                          ),
+                          child: CustomText(text: month, color: Colors.black, fontfamily: 'Poppins', fontSize: 14,fontweigth:FontWeight.w500,)
                         ),
-                        Stack(
-                          children: [
-                            const Icon(Icons.notifications,
-                                color: Colors.purple),
-                            Positioned(
-                              right: 0,
-                              top: 0,
-                              child: Container(
-                                height: 8,
-                                width: 8,
-                                decoration: const BoxDecoration(
-                                  color: Colors.red,
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        const SizedBox(width: 45,)
                       ],
                     ),
                     const SizedBox(height: 10),
@@ -233,24 +209,31 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     homeController.isLoading
-                        ? const Center(child: CircularProgressIndicator())
-                        : homeController.transactions.isEmpty
-                            ? const Center(
-                                child: Text(
-                                  "No Recent Transactions",
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                              )
-                            : Column(
-                                children: homeController.transactions
-                                    .map<Widget>((transaction) {
-                                  return TransactionItem(
-                                    title: transaction['description'],
-                                    amount: "₹${transaction['amount']}",
-                                    time: transaction['date'],
-                                  );
-                                }).toList(), 
-                              ),
+              ? const Center(child: CircularProgressIndicator())
+              : homeController.transactions.isEmpty
+                  ? const Center(
+                      child: Text(
+                        "No Recent Transactions",
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    )
+                  : Column(
+                      children: homeController.transactions
+                          .map<Widget>((transaction) {
+                        final String type = transaction['type'];
+                        final String sign = type == 'Income' ? '+' : '-';
+                        final Color color = type == 'Income'
+                            ? Colors.green
+                            : Colors.red;
+
+                        return TransactionItem(
+                          title: transaction['description'],
+                          amount: "$sign ₹${transaction['amount']}",
+                          time: transaction['date'],
+                          color: color,
+                        );
+                      }).toList(),
+                    ),
                   ],
                 )
               ),
