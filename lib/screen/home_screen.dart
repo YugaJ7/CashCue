@@ -198,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             text: "Recent Transaction",
                             color: Color.fromRGBO(30, 18, 43, 1),
                             fontfamily: 'Poppins',
-                            fontSize: 18,
+                            fontSize: 19,
                             fontweigth: FontWeight.w600,
                           ),
                           // TextButton(
@@ -219,6 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     )
                   : Column(
                       children: homeController.transactions
+                          .take(5)
                           .map<Widget>((transaction) {
                         final String type = transaction['type'];
                         final String sign = type == 'Income' ? '+' : '-';
@@ -226,11 +227,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             ? Colors.green
                             : Colors.red;
 
-                        return TransactionItem(
-                          title: transaction['description'],
-                          amount: "$sign ₹${transaction['amount']}",
-                          time: transaction['date'],
-                          color: color,
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TransactionItem(
+                            title: transaction['description'],
+                            amount: "$sign ₹${transaction['amount']}",
+                            time: transaction['date'],
+                            color: color,
+                          ),
                         );
                       }).toList(),
                     ),

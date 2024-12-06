@@ -73,7 +73,7 @@ class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
         selectedDateTime = "";
       });
 
-      Future.delayed(const Duration(seconds: 100), () {
+      Future.delayed(const Duration(seconds: 1), () {
         Navigator.pop(context); 
       });
     } else {
@@ -99,7 +99,7 @@ void _showAlertDialog(String title, String message) {
     ),
   );
 
-  Future.delayed(const Duration(seconds: 100), () {
+  Future.delayed(const Duration(seconds: 1), () {
     Navigator.pop(context); 
   });
 }

@@ -25,7 +25,7 @@ class TransactionItem extends StatelessWidget {
             children: [
               CustomText(
                 text: title,
-                color: Color.fromRGBO(41, 43, 45, 1),
+                color: Color.fromRGBO(145, 145, 159, 1),
                 fontfamily: 'Poppins',
                 fontSize: 16,
                 fontweigth: FontWeight.w500,
@@ -35,18 +35,19 @@ class TransactionItem extends StatelessWidget {
                 text: amount,
                 color: color,
                 fontfamily: 'Poppins',
-                fontSize: 14,
+                fontSize: 15,
                 fontweigth: FontWeight.w600,
               ),
             ],
           ),
+          SizedBox(height: 5,),
           Align(
             alignment: Alignment.bottomRight,
             child: CustomText(
               text: time,
               color: Color.fromRGBO(145, 145, 159, 1),
               fontfamily: 'Poppins',
-              fontSize: 12,
+              fontSize: 14,
               fontweigth: FontWeight.w500,
             ),
           ),

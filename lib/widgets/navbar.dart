@@ -127,17 +127,17 @@ class Navbar extends StatefulWidget {
 class _NavbarState extends State<Navbar> {
   int _selectedIndex = 0;
 
+  // A map to store the screens
+  final List<Widget> _screens = [
+    HomeScreen(),
+    TransactionScreen(),
+    SizedBox.shrink(), // Placeholder for the Add screen
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: const [
-          HomeScreen(),
-          TransactionScreen(),
-          SizedBox.shrink(), // Placeholder for the Add screen
-        ],
-      ),
+      body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: (int index) {
@@ -152,8 +152,7 @@ class _NavbarState extends State<Navbar> {
               _selectedIndex = index;
             });
           }
-        },
-        type: BottomNavigationBarType.fixed,
+        },type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
         selectedItemColor: Colors.purple,
         unselectedItemColor: Colors.grey,
