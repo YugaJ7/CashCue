@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../widgets/text.dart';
 
-class ToggleButtonUI extends StatelessWidget {
+class CustomToggleButton extends StatelessWidget {
   final bool isExpense; 
   final Function(bool) onToggle; 
 
-  const ToggleButtonUI({
+  const CustomToggleButton({
     Key? key,
     required this.isExpense,
     required this.onToggle,

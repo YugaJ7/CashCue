@@ -14,6 +14,7 @@ class HomeController extends ChangeNotifier {
 
     try {
       transactions = await _expenseService.fetchExpenses();
+      transactions = transactions.reversed.toList();
     } catch (error) {
       print("Error fetching expenses: $error");
     } finally {

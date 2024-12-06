@@ -65,7 +65,7 @@ class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
     if (response.statusCode == 200 || response.statusCode == 201) {
       final homeController = Provider.of<HomeController>(context, listen: false);
       homeController.loadExpenses();
-      _showAlertDialog("Success", "Transaction added successfully");
+      _showAlertDialog("Success", "Transaction has been successfully added");
 
       _amountController.clear();
       _descriptionController.clear();
@@ -73,8 +73,8 @@ class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
         selectedDateTime = "";
       });
 
-      Future.delayed(const Duration(seconds: 2), () {
-        Navigator.pop(context); // Close the screen after dialog
+      Future.delayed(const Duration(seconds: 100), () {
+        Navigator.pop(context); 
       });
     } else {
       _showAlertDialog("Error", "Failed to store data: ${response.body}");
@@ -88,16 +88,19 @@ void _showAlertDialog(String title, String message) {
   showDialog(
     context: context,
     builder: (context) => AlertDialog(
-      title: Text(title),
-      content: Text(message),
+      icon: const ImageIcon(AssetImage('assets/images/tick.png'),color: Color.fromRGBO(163, 60, 235, 1),size: 48,),
+      content: CustomText(text: message, color: Colors.black, fontfamily: 'Inter', fontSize: 14, fontweigth: FontWeight.w500,),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
       ),
+      backgroundColor: Colors.white,
+      shadowColor: Colors.black,
+      
     ),
   );
 
-  Future.delayed(const Duration(seconds: 2), () {
-    Navigator.pop(context); // Automatically close the dialog after 2 seconds
+  Future.delayed(const Duration(seconds: 100), () {
+    Navigator.pop(context); 
   });
 }
 
@@ -132,39 +135,11 @@ void _showAlertDialog(String title, String message) {
                     },
                   ),
                   const SizedBox(width: 40),
-                  // ToggleButtons(
-                  //   isSelected: [isExpense, !isExpense],
-                  //   onPressed: (index) {
-                  //     setState(() {
-                  //       isExpense = index == 0;
-                  //     });
-                  //   },
-                  //   borderRadius: BorderRadius.circular(20),
-                  //   color: Colors.black,
-                  //   selectedColor: Colors.white,
-                  //   fillColor: const Color.fromRGBO(182, 76, 242, 1),
-                  //   children: const [
-                  //     Padding(
-                  //       padding: EdgeInsets.symmetric(horizontal: 20),
-                  //       child: CustomText(
-                  //         text: 'Expense',
-                  //         color: Colors.white,
-                  //         fontfamily: 'Urbanist',
-                  //         fontSize: 16,
-                  //         fontweigth: FontWeight.w500,
-                  //       ),
-                  //     ),
-                  //     Padding(
-                  //       padding: EdgeInsets.symmetric(horizontal: 20),
-                  //       child: Text('Income'),
-                  //     ),
-                  //   ],
-                  // ),
-                  ToggleButtonUI(
+                  CustomToggleButton(
                     isExpense: isExpense,
                     onToggle: (value) {
                       setState(() {
-                        isExpense = value; // Update state based on toggle selection
+                        isExpense = value; 
                       });
                     },
                   ),
