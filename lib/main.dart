@@ -8,6 +8,7 @@ import 'package:cashcue/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'controller/home_contoller.dart';
+import 'screen/profile_screen.dart';
 
 void main() {
   runApp(
@@ -36,6 +37,9 @@ class MyApp extends StatelessWidget {
         '/navbar': (context) => Navbar(),
         '/home': (context) => const HomeScreen(),
         '/add_expense': (context) => ExpenseIncomeScreen(),
+        '/profile': (context) => ProfileScreen(),
+        '/analysis': (context) => ProfileScreen(),
+        '/group': (context) => ProfileScreen(),
       },
     );
   }

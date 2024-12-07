@@ -32,7 +32,9 @@ class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
   final String date = selectedDateTime;
 
   if (amount == null || description.isEmpty || date.isEmpty) {
-    _showAlertDialog("Error", "Please fill in all fields");
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Please fill in all fields")),
+    );
     return;
   }
 
@@ -41,12 +43,14 @@ class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
   print(token);
 
   if (token == null) {
-    _showAlertDialog("Error", "Authentication token not found");
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Token not found, Sign In again")),
+    );
     return;
   }
 
   final Map<String, dynamic> data = {
-    "type": isExpense ? "Expense" : "Income", // Determine the type
+    "type": isExpense ? "Expense" : "Income", 
     "amount": amount,
     "description": description,
     "date": date,
@@ -78,16 +82,21 @@ class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
         Navigator.pop(context); 
       });
     } else {
-      _showAlertDialog("Error", "Failed to store data: ${response.body}");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Failed to add transaction: ${response.body}")),
+      );
     }
   } catch (e) {
-    _showAlertDialog("Error", "Error: $e");
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Failed to add transaction: $e")),
+      );
   }
 }
 
 void _showAlertDialog(String title, String message) {
   showDialog(
     context: context,
+    barrierDismissible: false,
     builder: (context) => AlertDialog(
       icon: const ImageIcon(AssetImage('assets/images/tick.png'),color: Color.fromRGBO(163, 60, 235, 1),size: 48,),
       content: CustomText(text: message, color: Colors.black, fontfamily: 'Inter', fontSize: 14, fontweigth: FontWeight.w500,),

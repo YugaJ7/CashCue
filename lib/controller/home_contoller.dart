@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 
 import '../services/expense_api.dart';
-import '../services/summary_api.dart'; // New service for summary API
+import '../services/summary_api.dart'; 
 
 class HomeController extends ChangeNotifier {
   final ExpenseService _expenseService = ExpenseService();
-  final SummaryService _summaryService = SummaryService(); // New API service
+  final SummaryService _summaryService = SummaryService(); 
 
   List<Map<String, dynamic>> transactions = [];
   bool isLoading = true;
 
-  // Variables for summary data
   int totalIncome = 0;
   int totalExpense = 0;
   int remainingBalance = 0;
   double averageDailyExpense = 0.0;
   double averageWeeklyExpense = 0.0;
   double averageMonthlyExpense = 0.0;
-  String selectedTab = "Daily"; // Tracks selected average type
+  String selectedTab = "Daily";
 
   Future<void> loadExpenses() async {
     isLoading = true;

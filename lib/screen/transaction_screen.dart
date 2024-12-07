@@ -39,7 +39,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
                   decoration: const BoxDecoration(
                     gradient: LinearGradient(
                       begin: Alignment(0.00, -10.00),
-                      end: Alignment(0, .5),
+                      end: Alignment(0, 1),
                       colors: [Color.fromRGBO(185, 104, 231, 0.5), Colors.white],
                     ),
                   ),
@@ -64,9 +64,6 @@ class _TransactionScreenState extends State<TransactionScreen> {
                           fontweigth: FontWeight.w500,
                         ),
                       ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: const Center(child: CircularProgressIndicator(),))
                     ]
                   )
                 )

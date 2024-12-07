@@ -14,9 +14,8 @@ class AverageMoneySpentGraph extends StatefulWidget {
 class _AverageMoneySpentGraphState extends State<AverageMoneySpentGraph> {
   @override
   Widget build(BuildContext context) {
-    final homeController = Provider.of<HomeController>(context); // Access HomeController
+    final homeController = Provider.of<HomeController>(context); 
     double width = MediaQuery.of(context).size.width;
-
     return Column(
       children: [
         Container(
@@ -43,7 +42,6 @@ class _AverageMoneySpentGraphState extends State<AverageMoneySpentGraph> {
                 fontweigth: FontWeight.w600,
               ),
               const SizedBox(height: 16),
-              // Placeholder for graph
               Container(
                 height: 100,
                 child: const Center(
@@ -54,12 +52,11 @@ class _AverageMoneySpentGraphState extends State<AverageMoneySpentGraph> {
           ),
         ),
         const SizedBox(height: 20),
-        // Tab buttons for selecting Daily, Weekly, Monthly
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             TabButton(
-              "Daily",
+              "Today",
               0,
               homeController.selectedTab == "Daily" ? 0 : -1,
               (index) {

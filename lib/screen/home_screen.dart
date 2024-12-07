@@ -60,12 +60,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        CircleAvatar(
-                          radius: width * .065,
-                          backgroundColor: const Color(0xFFB968E7),
+                        GestureDetector(
+                          onTap: (){Navigator.pushNamed(context, '/profile');},
                           child: CircleAvatar(
-                              radius: width * .06,
-                              child: Image.asset('assets/images/avatar.png')),
+                            radius: width * .065,
+                            backgroundColor: const Color(0xFFB968E7),
+                            child: CircleAvatar(
+                                radius: width * .06,
+                                child: Image.asset('assets/images/avatar.png')),
+                          ),
                         ),
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

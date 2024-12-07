@@ -112,6 +112,8 @@
 // }
 
 import 'package:cashcue/screen/add_screen.dart';
+import 'package:cashcue/screen/analysis_screen.dart';
+import 'package:cashcue/screen/group_screen.dart';
 import 'package:cashcue/screen/transaction_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -131,7 +133,9 @@ class _NavbarState extends State<Navbar> {
   final List<Widget> _screens = [
     HomeScreen(),
     TransactionScreen(),
-    SizedBox.shrink(), // Placeholder for the Add screen
+    SizedBox.shrink(),
+    AnalysisScreen(),
+    GroupScreen() // Placeholder for the Add screen
   ];
 
   @override
