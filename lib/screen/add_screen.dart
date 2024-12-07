@@ -65,6 +65,7 @@ class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
     if (response.statusCode == 200 || response.statusCode == 201) {
       final homeController = Provider.of<HomeController>(context, listen: false);
       homeController.loadExpenses();
+      homeController.fetchSummaryData();
       _showAlertDialog("Success", "Transaction has been successfully added");
 
       _amountController.clear();

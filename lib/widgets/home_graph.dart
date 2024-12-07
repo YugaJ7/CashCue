@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
+import '../controller/home_contoller.dart';
 import 'tabButton.dart';
 import 'text.dart';
 
@@ -11,10 +12,11 @@ class AverageMoneySpentGraph extends StatefulWidget {
 }
 
 class _AverageMoneySpentGraphState extends State<AverageMoneySpentGraph> {
-  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
+    final homeController = Provider.of<HomeController>(context); // Access HomeController
     double width = MediaQuery.of(context).size.width;
+
     return Column(
       children: [
         Container(
@@ -34,7 +36,7 @@ class _AverageMoneySpentGraphState extends State<AverageMoneySpentGraph> {
                 fontweigth: FontWeight.w600,
               ),
               CustomText(
-                text: '\$1000',
+                text: "₹${homeController.getCurrentAverageExpense()}",
                 color: Colors.black,
                 fontfamily: 'Poppins',
                 fontSize: width * 0.05,
@@ -52,24 +54,34 @@ class _AverageMoneySpentGraphState extends State<AverageMoneySpentGraph> {
           ),
         ),
         const SizedBox(height: 20),
+        // Tab buttons for selecting Daily, Weekly, Monthly
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TabButton("Today", 0, selectedIndex, (index) {
-              setState(() {
-                selectedIndex = index;
-              });
-            }),
-            TabButton("Week", 1, selectedIndex, (index) {
-              setState(() {
-                selectedIndex = index;
-              });
-            }),
-            TabButton("Month", 2, selectedIndex, (index) {
-              setState(() {
-                selectedIndex = index;
-              });
-            }),
+            TabButton(
+              "Daily",
+              0,
+              homeController.selectedTab == "Daily" ? 0 : -1,
+              (index) {
+                homeController.updateSelectedTab("Daily");
+              },
+            ),
+            TabButton(
+              "Weekly",
+              1,
+              homeController.selectedTab == "Weekly" ? 1 : -1,
+              (index) {
+                homeController.updateSelectedTab("Weekly");
+              },
+            ),
+            TabButton(
+              "Monthly",
+              2,
+              homeController.selectedTab == "Monthly" ? 2 : -1,
+              (index) {
+                homeController.updateSelectedTab("Monthly");
+              },
+            ),
           ],
         ),
       ],

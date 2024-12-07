@@ -21,6 +21,9 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     final homeController = Provider.of<HomeController>(context, listen: false);
     homeController.loadExpenses();
+    print("Calling fetchsummarydata");
+    homeController.fetchSummaryData(); 
+    print("Called fetchsummarydata");
   }
 
   @override
@@ -91,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           const SizedBox(height: 4),
                           CustomText(
-                            text: "₹9400",
+                            text: "₹${homeController.remainingBalance}",
                             color: Colors.black,
                             fontfamily: 'Inter',
                             fontSize: width * .1,
@@ -130,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       fontweigth: FontWeight.w500,
                                     ),
                                     CustomText(
-                                      text: '\$8000',
+                                      text: '₹${homeController.totalIncome}',
                                       color: Colors.white,
                                       fontfamily: 'Poppins',
                                       fontSize: width * 0.06,
@@ -169,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       fontweigth: FontWeight.w500,
                                     ),
                                     CustomText(
-                                      text: '\$7000',
+                                      text: '₹${homeController.totalExpense}',
                                       color: Colors.white,
                                       fontfamily: 'Poppins',
                                       fontSize: width * 0.06,
