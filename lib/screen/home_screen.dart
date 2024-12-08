@@ -17,14 +17,12 @@ class _HomeScreenState extends State<HomeScreen> {
   //bool isLoading = true;
 
   @override
-void initState() {
+  void initState() {
   super.initState();
   
-  // Delay the API calls until after the current build phase is complete.
   WidgetsBinding.instance.addPostFrameCallback((_) {
     final homeController = Provider.of<HomeController>(context, listen: false);
     
-    // Now, perform the actions safely after the build phase.
     print("Calling fetchSummaryData");
     homeController.loadExpenses();
     homeController.fetchSummaryData();
@@ -119,7 +117,7 @@ void initState() {
                       children: [
                         Expanded(
                           child: Container(
-                            width: width * 0.437,
+                            width: width * 0.5,
                             decoration: BoxDecoration(
                               color: const Color.fromRGBO(185, 104, 231, 1),
                               borderRadius: BorderRadius.circular(width * 0.1),
@@ -132,8 +130,9 @@ void initState() {
                                   width: width * 0.128,
                                   height: width * 0.128,
                                 ),
-                                const SizedBox(width: 8),
+                                const SizedBox(width: 5),
                                 Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     CustomText(
                                       text: 'Income',
@@ -146,7 +145,7 @@ void initState() {
                                       text: '₹${homeController.totalIncome}',
                                       color: Colors.white,
                                       fontfamily: 'Poppins',
-                                      fontSize: width * 0.06,
+                                      fontSize: width * 0.05,
                                       fontweigth: FontWeight.w600,
                                     )
                                   ],
@@ -158,7 +157,7 @@ void initState() {
                         const SizedBox(width: 16),
                         Expanded(
                           child: Container(
-                            width: width * 0.437,
+                            width: width * 0.5,
                             decoration: BoxDecoration(
                               color: const Color.fromRGBO(128, 127, 128, 1),
                               borderRadius: BorderRadius.circular(width * 0.1),
@@ -185,7 +184,7 @@ void initState() {
                                       text: '₹${homeController.totalExpense}',
                                       color: Colors.white,
                                       fontfamily: 'Poppins',
-                                      fontSize: width * 0.06,
+                                      fontSize: width * 0.05,
                                       fontweigth: FontWeight.w600,
                                     )
                                   ],

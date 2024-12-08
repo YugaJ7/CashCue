@@ -86,12 +86,14 @@ class _AddBalanceScreenState extends State<AddBalanceScreen> {
           color: Color.fromRGBO(163, 60, 235, 1),
           size: 48,
         ),
-        content: CustomText(
-          text: message,
-          color: Colors.black,
-          fontfamily: 'Inter',
-          fontSize: 14,
-          fontweigth: FontWeight.w500,
+        content: Center(
+          child: CustomText(
+            text: message,
+            color: Colors.black,
+            fontfamily: 'Inter',
+            fontSize: 14,
+            fontweigth: FontWeight.w500,
+          ),
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),

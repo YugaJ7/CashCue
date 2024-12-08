@@ -16,7 +16,7 @@ class HomeController extends ChangeNotifier {
   double averageDailyExpense = 0.0;
   double averageWeeklyExpense = 0.0;
   double averageMonthlyExpense = 0.0;
-  String selectedTab = "Daily";
+  String selectedTab = "Today";
 
   Future<void> loadExpenses() async {
     isLoading = true;
@@ -47,6 +47,8 @@ class HomeController extends ChangeNotifier {
       totalExpense = summaryData['totalExpense'];
       remainingBalance = summaryData['remainingBalance'];
       averageDailyExpense = double.parse(summaryData['averageDailyExpense']);
+      print("Today average");
+      print(averageDailyExpense);
       averageWeeklyExpense = double.parse(summaryData['averageWeeklyExpense']);
       averageMonthlyExpense = double.parse(summaryData['averageMonthlyExpense']);
     } catch (error) {
@@ -63,7 +65,7 @@ class HomeController extends ChangeNotifier {
         return averageWeeklyExpense;
       case "Monthly":
         return averageMonthlyExpense;
-      case "Daily":
+      case "Today":
       default:
         return averageDailyExpense;
     }
