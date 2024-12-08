@@ -111,12 +111,12 @@
 //   }
 // }
 
-import 'package:cashcue/screen/add_screen.dart';
 import 'package:cashcue/screen/analysis_screen.dart';
 import 'package:cashcue/screen/group_screen.dart';
 import 'package:cashcue/screen/transaction_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../screen/add_transaction_screen.dart';
 import '../screen/home_screen.dart';
 
 class Navbar extends StatefulWidget {

@@ -1,4 +1,5 @@
-import 'package:cashcue/screen/add_screen.dart';
+import 'package:cashcue/screen/add_balance_screen.dart';
+import 'package:cashcue/screen/add_transaction_screen.dart';
 import 'package:cashcue/screen/forgot_screen.dart';
 import 'package:cashcue/screen/home_screen.dart';
 import 'package:cashcue/screen/login.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => ProfileScreen(),
         '/analysis': (context) => ProfileScreen(),
         '/group': (context) => ProfileScreen(),
+        '/balance': (context) => AddBalanceScreen(),
       },
     );
   }

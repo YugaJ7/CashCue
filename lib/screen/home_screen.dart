@@ -17,14 +17,21 @@ class _HomeScreenState extends State<HomeScreen> {
   //bool isLoading = true;
 
   @override
-  void initState() {
-    super.initState();
+void initState() {
+  super.initState();
+  
+  // Delay the API calls until after the current build phase is complete.
+  WidgetsBinding.instance.addPostFrameCallback((_) {
     final homeController = Provider.of<HomeController>(context, listen: false);
+    
+    // Now, perform the actions safely after the build phase.
+    print("Calling fetchSummaryData");
     homeController.loadExpenses();
-    print("Calling fetchsummarydata");
-    homeController.fetchSummaryData(); 
-    print("Called fetchsummarydata");
-  }
+    homeController.fetchSummaryData();
+    print("Called fetchSummaryData");
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {

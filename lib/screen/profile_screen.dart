@@ -85,7 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   GestureDetector(
-                    onTap: () {},
+                    onTap: (){Navigator.pushNamed(context, '/balance');},
                     child: const CustomText(
                         text: 'Account',
                         color: Color.fromRGBO(41, 43, 45, 1),
