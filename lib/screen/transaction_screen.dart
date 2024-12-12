@@ -6,6 +6,8 @@ import '../widgets/text.dart';
 import '../widgets/transaction_list.dart'; 
 
 class TransactionScreen extends StatefulWidget {
+  const TransactionScreen({super.key});
+
   @override
   _TransactionScreenState createState() => _TransactionScreenState();
 }
@@ -22,6 +24,7 @@ class _TransactionScreenState extends State<TransactionScreen> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    double height= MediaQuery.of(context).size.height;
     final DateTime today = DateTime.now();
     final DateFormat format2 = DateFormat('MMMM');
     String month = format2.format(today);
@@ -72,13 +75,49 @@ class _TransactionScreenState extends State<TransactionScreen> {
           }
 
           if (controller.transactions.isEmpty) {
-            return const Center(
-                child: CustomText(
-              text: 'No transactions',
-              color: Colors.black,
-              fontfamily: 'Poppins',
-              fontSize: 24,
-            ));
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: width,
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment(0.00, -10.00),
+                      end: Alignment(0, 1),
+                      colors: [Color.fromRGBO(185, 104, 231, 0.5), Colors.white],
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 50),
+                      Container(
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        decoration: ShapeDecoration(
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                                width: 1, color: Color(0xFFB968E7)),
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                        ),
+                        child: CustomText(
+                          text: month,
+                          color: Colors.black,
+                          fontfamily: 'Poppins',
+                          fontSize: 14,
+                          fontweigth: FontWeight.w500,
+                        ),
+                      ),
+                      SizedBox(height: height/3,),
+                      CustomText(text: 'No Transaction', color: Colors.black,
+                          fontfamily: 'Urbanist',
+                          fontSize: 20,
+                          fontweigth: FontWeight.w500,)
+                    ]
+                  )
+                )
+              ]
+            );
           }
           List<Map<String, dynamic>> sortedTransactions = sortTransactions(controller.transactions);
           return SingleChildScrollView(

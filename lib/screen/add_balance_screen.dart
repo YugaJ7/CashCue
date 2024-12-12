@@ -8,7 +8,7 @@ import 'dart:convert';
 import '../widgets/text.dart';
 
 class AddBalanceScreen extends StatefulWidget {
-  const AddBalanceScreen({Key? key}) : super(key: key);
+  const AddBalanceScreen({super.key});
 
   @override
   State<AddBalanceScreen> createState() => _AddBalanceScreenState();
@@ -138,12 +138,12 @@ class _AddBalanceScreenState extends State<AddBalanceScreen> {
                       Navigator.pop(context);
                     },
                   ),
-                  const SizedBox(width: 40),
-                  CustomText(
+                  SizedBox(width: MediaQuery.of(context).size.width*.235),
+                  const CustomText(
                     text: 'Account',
                     color: Color.fromRGBO(33, 35, 37, 1),
                     fontfamily: 'Poppins',
-                    fontSize: 18,
+                    fontSize: 20,
                     fontweigth: FontWeight.w600,
                   )
                 ],

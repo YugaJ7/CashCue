@@ -90,7 +90,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
                     textColor: const Color(0xFF8391A1),
                     controller: _emailController,
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   SizedBox(
                     height: 56,
                     width: double.infinity,
@@ -115,7 +115,7 @@ class _ForgotScreenState extends State<ForgotScreen> {
                       textcolor: Colors.white,
                       bordercolor: const Color(0xFFB968E7)),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

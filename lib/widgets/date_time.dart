@@ -1,4 +1,5 @@
 import 'package:board_datetime_picker/board_datetime_picker.dart';
+import 'package:cashcue/widgets/text.dart';
 import 'package:flutter/material.dart';
 
 class PickerItemWidget extends StatelessWidget {
@@ -27,6 +28,7 @@ class PickerItemWidget extends StatelessWidget {
               startDayOfWeek: DateTime.sunday,
               pickerFormat: PickerFormat.ymd,
             ),
+            maximumDate: DateTime.now(),
             valueNotifier: date,
             controller: controller,
           );
@@ -41,7 +43,7 @@ class PickerItemWidget extends StatelessWidget {
           child: Row(
             children: [
               const Expanded(
-                child: Text('Date and Time'),
+                child: CustomText(text: 'Date and Time', color: Color.fromRGBO(143, 142, 148, 1), fontfamily: 'Urbanist', fontSize: 16,)
               ),
               ValueListenableBuilder(
                 valueListenable: date,

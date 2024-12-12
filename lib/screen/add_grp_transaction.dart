@@ -11,20 +11,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert'; 
 import '../widgets/text.dart';
 
-class ExpenseIncomeScreen extends StatefulWidget {
-  const ExpenseIncomeScreen({super.key});
+class AddGroupTransactionScreen extends StatefulWidget {
+  const AddGroupTransactionScreen({super.key});
 
   @override
-  State<ExpenseIncomeScreen> createState() => _ExpenseIncomeScreenState();
+  State<AddGroupTransactionScreen> createState() => _AddGroupTransactionScreenState();
 }
 
-class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
+class _AddGroupTransactionScreenState extends State<AddGroupTransactionScreen> {
   bool isExpense = true;
   String selectedDateTime = "";
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
-  final String apiUrl = "https://cash-cue.onrender.com/transaction/add";
+  final String apiUrl = " https://cash-cue.onrender.com/groups/add-expense";
 
   Future<void> _storeData() async {
   final double? amount = double.tryParse(_amountController.text.trim());
@@ -40,7 +40,7 @@ class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
 
   final prefs = await SharedPreferences.getInstance();
   final token = prefs.getString('authToken');
-  print(token);
+  final groupIds = prefs.getStringList('groups') ?? [];
 
   if (token == null) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -49,10 +49,19 @@ class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
     return;
   }
 
+  if (groupIds.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("No groups found. Please create a group first.")),
+    );
+    return;
+  }
+
+  final String groupId = groupIds.first; // Select the first group ID (modify as needed)
+
   final Map<String, dynamic> data = {
-    "type": isExpense ? "Expense" : "Income", 
-    "amount": amount,
+    "groupId": groupId, // Add groupId to the request
     "description": description,
+    "amount": amount,
     "date": date,
   };
 
@@ -67,11 +76,7 @@ class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      final homeController = Provider.of<HomeController>(context, listen: false);
-      homeController.loadExpenses();
-      homeController.fetchSummaryData();
       _showAlertDialog("Success", "Transaction has been successfully added");
-
       _amountController.clear();
       _descriptionController.clear();
       setState(() {
@@ -88,10 +93,11 @@ class _ExpenseIncomeScreenState extends State<ExpenseIncomeScreen> {
     }
   } catch (e) {
     ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Failed to add transaction: $e")),
-      );
+      SnackBar(content: Text("Failed to add transaction: $e")),
+    );
   }
 }
+
 
 void _showAlertDialog(String title, String message) {
   showDialog(
@@ -143,15 +149,6 @@ void _showAlertDialog(String title, String message) {
                     ),
                     onPressed: () {
                       Navigator.pop(context);
-                    },
-                  ),
-                  const SizedBox(width: 40),
-                  CustomToggleButton(
-                    isExpense: isExpense,
-                    onToggle: (value) {
-                      setState(() {
-                        isExpense = value; 
-                      });
                     },
                   ),
                 ],

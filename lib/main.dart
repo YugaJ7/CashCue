@@ -1,4 +1,5 @@
 import 'package:cashcue/screen/add_balance_screen.dart';
+import 'package:cashcue/screen/add_group_screen.dart';
 import 'package:cashcue/screen/add_transaction_screen.dart';
 import 'package:cashcue/screen/forgot_screen.dart';
 import 'package:cashcue/screen/home_screen.dart';
@@ -8,7 +9,8 @@ import 'package:cashcue/screen/splash_page.dart';
 import 'package:cashcue/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'controller/home_contoller.dart';
+
+import 'controller/home_contoller.dart';  
 import 'screen/profile_screen.dart';
 
 void main() {
@@ -34,14 +36,15 @@ class MyApp extends StatelessWidget {
         '/': (context) => const SplashScreen(),
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
-        '/forgot': (context) => ForgotScreen(),
-        '/navbar': (context) => Navbar(),
+        '/forgot': (context) => const ForgotScreen(),
+        '/navbar': (context) => const Navbar(),
         '/home': (context) => const HomeScreen(),
-        '/add_expense': (context) => ExpenseIncomeScreen(),
-        '/profile': (context) => ProfileScreen(),
-        '/analysis': (context) => ProfileScreen(),
-        '/group': (context) => ProfileScreen(),
-        '/balance': (context) => AddBalanceScreen(),
+        '/add_expense': (context) => const ExpenseIncomeScreen(),
+        '/profile': (context) => const ProfileScreen(),
+        '/analysis': (context) => const ProfileScreen(),
+        '/group': (context) => const ProfileScreen(),
+        '/balance': (context) => const AddBalanceScreen(),
+        '/add_group': (context) => const AddGroupScreen(),
       },
     );
   }

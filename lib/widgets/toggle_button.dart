@@ -6,10 +6,10 @@ class CustomToggleButton extends StatelessWidget {
   final Function(bool) onToggle; 
 
   const CustomToggleButton({
-    Key? key,
+    super.key,
     required this.isExpense,
     required this.onToggle,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class CustomToggleButton extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                 decoration: BoxDecoration(
-                  color: isExpense ? Color.fromRGBO(182, 76, 242, 1) : Colors.transparent,
+                  color: isExpense ? const Color.fromRGBO(182, 76, 242, 1) : Colors.transparent,
                   borderRadius: BorderRadius.circular(25.0),
                 ),
                 child: CustomText(
@@ -45,7 +45,7 @@ class CustomToggleButton extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
                 decoration: BoxDecoration(
-                  color: !isExpense ? Color.fromRGBO(182, 76, 242, 1): Colors.transparent,
+                  color: !isExpense ? const Color.fromRGBO(182, 76, 242, 1): Colors.transparent,
                   borderRadius: BorderRadius.circular(25.0),
                 ),
                 child: CustomText(

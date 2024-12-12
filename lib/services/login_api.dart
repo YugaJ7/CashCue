@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,18 +15,32 @@ import 'package:shared_preferences/shared_preferences.dart';
         'password': password,
       }),
     );
+    print('API Status: ${response.statusCode}');
     print('API Response: ${response.body}');
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('authToken', data['token']);
+      final username = await SharedPreferences.getInstance();
+      await username.setString('username', data['data']['name']);
+      print(username);
+      List<String> groupList = [];
+      if (data['data']['groups'] != null && data['data']['groups'] is List) {
+        groupList = List<String>.from(data['data']['groups']);
+      }
+      else
+        groupList=["0"];
+      print('Group id = ${groupList}');
+      final groupid = await SharedPreferences.getInstance();
+      await groupid.setStringList('groups', groupList);
+      print('Group id = ${groupid}');
       if (data['success'] == true) {
         return {'success': true, 'data': 'Login Done'};
       } else {
         return {'success': true, 'data': jsonDecode(response.body)?? 'Login failed'};
       }
     } else {
-      return {'success': false, 'message': 'An error occurred'};
+      return {'success': false, 'message': jsonDecode(response.body)};
     }
   }
 // Future<Map<String, dynamic>> loginUser({

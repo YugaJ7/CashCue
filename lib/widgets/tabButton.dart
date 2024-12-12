@@ -6,7 +6,7 @@ class TabButton extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onTap;
 
-  const TabButton(this.title, this.index, this.selectedIndex, this.onTap, {Key? key}) : super(key: key);
+  const TabButton(this.title, this.index, this.selectedIndex, this.onTap, {super.key});
 
   @override
   Widget build(BuildContext context) {

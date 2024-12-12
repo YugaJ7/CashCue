@@ -1,5 +1,6 @@
-import 'package:cashcue/widgets/text.dart';
 import 'package:flutter/material.dart';
+import 'package:cashcue/widgets/text.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -9,6 +10,31 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  String user = '';
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUsername();
+  }
+  Future<void> _loadUsername() async {
+    try {
+      final username = await SharedPreferences.getInstance();
+      final name = username.getString('username');
+      
+      setState(() {
+        user = name!;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        user = 'Default'; 
+        isLoading = false;
+      });
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -38,39 +64,48 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 const SizedBox(
                   width: 20,
                 ),
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomText(
+                    const CustomText(
                         text: 'Username',
                         color: Color.fromRGBO(145, 145, 159, 1),
                         fontfamily: 'Poppins',
                         fontSize: 14,
                         fontweigth: FontWeight.w500),
-                    CustomText(
-                        text: 'Yuga Jaiswal',
-                        color: Color.fromRGBO(22, 23, 25, 1),
-                        fontfamily: 'Poppins',
-                        fontSize: 24,
-                        fontweigth: FontWeight.w600),
+                    isLoading
+                        ? const CustomText(
+                            text: 'Loading...',
+                            color: Color.fromRGBO(22, 23, 25, 1),
+                            fontfamily: 'Poppins',
+                            fontSize: 24,
+                            fontweigth: FontWeight.w600,
+                          )
+                        : CustomText(
+                            text: user,
+                            color: Color.fromRGBO(22, 23, 25, 1),
+                            fontfamily: 'Poppins',
+                            fontSize: 24,
+                            fontweigth: FontWeight.w600,
+                          ),
                   ],
                 ),
                 const SizedBox(
                   width: 20,
                 ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: const Color.fromRGBO(241, 241, 250, 1)),
-                          borderRadius: const BorderRadius.all(Radius.circular(8))),
-                      child: const ImageIcon(
-                        AssetImage('assets/images/edit.png'),
-                        size: 35,
-                      )),
-                )
+                // GestureDetector(
+                //   onTap: () {},
+                //   child: Container(
+                //       padding: const EdgeInsets.all(4),
+                //       decoration: BoxDecoration(
+                //           border: Border.all(
+                //               color: const Color.fromRGBO(241, 241, 250, 1)),
+                //           borderRadius: const BorderRadius.all(Radius.circular(8))),
+                //       child: const ImageIcon(
+                //         AssetImage('assets/images/edit.png'),
+                //         size: 35,
+                //       )),
+                // )
               ],
             ),
             const SizedBox(height: 30),
@@ -93,16 +128,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         fontSize: 16,
                         fontweigth: FontWeight.w500),
                   ),
-                  const SizedBox(height: 35),
-                  GestureDetector(
-                    onTap: () {},
-                    child: const CustomText(
-                        text: 'About',
-                        color: Color.fromRGBO(41, 43, 45, 1),
-                        fontfamily: 'Poppins',
-                        fontSize: 16,
-                        fontweigth: FontWeight.w500),
-                  ),
+                  // const SizedBox(height: 35),
+                  // GestureDetector(
+                  //   onTap: () {},
+                  //   child: const CustomText(
+                  //       text: 'About',
+                  //       color: Color.fromRGBO(41, 43, 45, 1),
+                  //       fontfamily: 'Poppins',
+                  //       fontSize: 16,
+                  //       fontweigth: FontWeight.w500),
+                  // ),
                   const SizedBox(height: 35),
                   GestureDetector(
                     onTap: () {
@@ -151,23 +186,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   BorderRadius.circular(16),
                                             ),
                                           ),
-                                          child: Center(child: CustomText(text: 'No', color: Color(0xFFB54BF1), fontfamily: 'Poppins', fontSize: 18, fontweigth: FontWeight.w600,)),
+                                          child: const Center(child: CustomText(text: 'No', color: Color(0xFFB54BF1), fontfamily: 'Poppins', fontSize: 18, fontweigth: FontWeight.w600,)),
                                         ),
                                       ),
                                       GestureDetector(
-                                        onTap: (){Navigator.of(context).pop();},
+                                        onTap: (){
+                                          Navigator.of(context).popUntil((route) => route.isFirst);  
+                                          Navigator.pushReplacementNamed(context, '/login');
+                                        },
                                         child: Container(
                                           width: 164,
                                           height: 56,
                                           padding: const EdgeInsets.all(8),
                                           decoration: ShapeDecoration(
-                                            color: Color.fromRGBO(182, 76, 242, 1),
+                                            color: const Color.fromRGBO(182, 76, 242, 1),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(16),
                                             ),
                                           ),
-                                          child: Center(child: CustomText(text: 'Yes', color: Colors.white, fontfamily: 'Poppins', fontSize: 18, fontweigth: FontWeight.w600,)),
+                                          child: const Center(child: CustomText(text: 'Yes', color: Colors.white, fontfamily: 'Poppins', fontSize: 18, fontweigth: FontWeight.w600,)),
                                         ),
                                       )
                                     ],

@@ -115,6 +115,7 @@ import 'package:cashcue/screen/analysis_screen.dart';
 import 'package:cashcue/screen/group_screen.dart';
 import 'package:cashcue/screen/transaction_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../screen/add_transaction_screen.dart';
 import '../screen/home_screen.dart';
@@ -131,9 +132,9 @@ class _NavbarState extends State<Navbar> {
 
   // A map to store the screens
   final List<Widget> _screens = [
-    HomeScreen(),
+    const HomeScreen(),
     TransactionScreen(),
-    SizedBox.shrink(),
+    const SizedBox.shrink(),
     AnalysisScreen(),
     GroupScreen() // Placeholder for the Add screen
   ];
@@ -166,7 +167,7 @@ class _NavbarState extends State<Navbar> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: ImageIcon(AssetImage('assets/images/transaction.png')),
+            icon: Icon(FontAwesomeIcons.arrowRightArrowLeft),
             label: 'Transaction',
           ),
           BottomNavigationBarItem(

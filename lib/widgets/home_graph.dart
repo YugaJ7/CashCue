@@ -17,18 +17,17 @@ class AverageMoneySpentGraph extends StatefulWidget {
 }
 
 class _AverageMoneySpentGraphState extends State<AverageMoneySpentGraph> {
-  String selectedTab = "Today";  // Default selected tab
+  String selectedTab = "Today";  
   List<Map<String, dynamic>> graphData = [];
   bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    fetchGraphData();  // Load graph data when widget is first created
+    fetchGraphData(); 
   }
 
-  // Function to fetch graph data based on selected tab
-  Future<void> fetchGraphData() async {
+Future<void> fetchGraphData() async {
     setState(() {
       isLoading = true;
     });
@@ -59,6 +58,7 @@ class _AverageMoneySpentGraphState extends State<AverageMoneySpentGraph> {
         setState(() {
           graphData = List<Map<String, dynamic>>.from(data['data']);
           isLoading = false;
+          print(graphData);
         });
       } else {
         throw Exception("Failed to load data");
@@ -71,7 +71,6 @@ class _AverageMoneySpentGraphState extends State<AverageMoneySpentGraph> {
     }
   }
 
-  // Create BarChart Groups based on selected tab
   List<BarChartGroupData> createBarGroups() {
     return graphData
         .asMap()
@@ -107,38 +106,11 @@ class _AverageMoneySpentGraphState extends State<AverageMoneySpentGraph> {
         .values
         .toList();
   }
-
-  // Tab Button widget to update the selected tab
-  // Widget buildTabButton(String tabName) {
-  //   return GestureDetector(
-  //     onTap: () {
-  //       setState(() {
-  //         selectedTab = tabName;  // Update selected tab
-  //         fetchGraphData();  // Fetch new graph data when tab is changed
-  //       });
-  //     },
-  //     child: Container(
-  //       margin: const EdgeInsets.symmetric(horizontal: 8),
-  //       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-  //       decoration: BoxDecoration(
-  //         color: selectedTab == tabName ? Colors.purple : Colors.grey[300],
-  //         borderRadius: BorderRadius.circular(20),
-  //       ),
-  //       child: Text(
-  //         tabName,
-  //         style: TextStyle(
-  //           color: selectedTab == tabName ? Colors.white : Colors.black,
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   String formatLargeNumber(int value) {
     if (value >= 1000000) {
-      return (value / 1000000).toStringAsFixed(1) + 'M';
+      return '${(value / 1000000).toStringAsFixed(1)}M';
     } else if (value >= 1000) {
-      return (value / 1000).toStringAsFixed(1) + 'k'; 
+      return '${(value / 1000).toStringAsFixed(1)}k'; 
     } else {
       return value.toString();
     }
@@ -150,7 +122,6 @@ class _AverageMoneySpentGraphState extends State<AverageMoneySpentGraph> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    // Use homeController to get the dynamically updated average
     double averageSpent = homeController.getCurrentAverageExpense(); 
 
     return Column(
@@ -172,14 +143,14 @@ class _AverageMoneySpentGraphState extends State<AverageMoneySpentGraph> {
                 fontweigth: FontWeight.w600,
               ),
               CustomText(
-                text: "₹${averageSpent.toStringAsFixed(2)}", // Show dynamically updated average from homeController
+                text: "₹${averageSpent.toStringAsFixed(2)}", 
                 color: Colors.black,
                 fontfamily: 'Poppins',
                 fontSize: width * 0.05,
                 fontweigth: FontWeight.w600,
               ),
               const SizedBox(height: 16),
-              Container(
+              SizedBox(
                 height: height * 0.25,
                 child: isLoading
                     ? const Center(child: CircularProgressIndicator())
@@ -195,10 +166,8 @@ class _AverageMoneySpentGraphState extends State<AverageMoneySpentGraph> {
                                   int index = value.toInt();
                                   if (index >= 0 && index < graphData.length) {
                                     return CustomText(
-                                      text: selectedTab == "Today"
-                                          ? graphData[index]['time'] ?? ''
-                                          : graphData[index]['date'] ?? '',
-                                      color: Color.fromRGBO(97, 94, 131, 1),
+                                      text: selectedTab == "Today"? graphData[index]['time'] ?? '' : selectedTab == "Weekly"? graphData[index]['date'] ?? '' : graphData[index]['weekLabel'],
+                                      color: const Color.fromRGBO(97, 94, 131, 1),
                                       fontfamily: 'Poppins',
                                       fontSize: 12,
                                       fontweigth: FontWeight.w400,
@@ -217,7 +186,7 @@ class _AverageMoneySpentGraphState extends State<AverageMoneySpentGraph> {
                                   String formattedValue = formatLargeNumber(value.toInt());
                                   return CustomText(
                                     text: formattedValue,
-                                    color: Color.fromRGBO(97, 94, 131, 1),
+                                    color: const Color.fromRGBO(97, 94, 131, 1),
                                     fontfamily: 'Poppins',
                                     fontSize: 14,
                                     fontweigth: FontWeight.w400,

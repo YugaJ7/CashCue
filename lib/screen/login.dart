@@ -102,33 +102,33 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         const Spacer(),
-                        Row(
-                          children: [
-                            Expanded(child: Divider(thickness: 1, color: Colors.grey[300])),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10.0),
-                              child: CustomText(
-                                text: 'Or Login With',
-                                color: Color(0xFF6A707C),
-                                fontfamily: 'Urbanist',
-                                fontSize: 14,
-                                fontweigth: FontWeight.w600,
-                              ),
-                            ),
-                            Expanded(child: Divider(thickness: 1, color: Colors.grey[300])),
-                          ],
-                        ),
-                        const SizedBox(height: 24),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            _socialLoginButton('assets/images/facebook.svg',(){}),
-                            const SizedBox(width: 8),
-                            _socialLoginButton('assets/images/google.svg',(){}),
-                            const SizedBox(width: 8),
-                            _socialLoginButton('assets/images/apple.svg',(){}),
-                          ],
-                        ),
+                        // Row(
+                        //   children: [
+                        //     Expanded(child: Divider(thickness: 1, color: Colors.grey[300])),
+                        //     const Padding(
+                        //       padding: EdgeInsets.symmetric(horizontal: 10.0),
+                        //       child: CustomText(
+                        //         text: 'Or Login With',
+                        //         color: Color(0xFF6A707C),
+                        //         fontfamily: 'Urbanist',
+                        //         fontSize: 14,
+                        //         fontweigth: FontWeight.w600,
+                        //       ),
+                        //     ),
+                        //     Expanded(child: Divider(thickness: 1, color: Colors.grey[300])),
+                        //   ],
+                        // ),
+                        // const SizedBox(height: 24),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     _socialLoginButton('assets/images/facebook.svg',(){}),
+                        //     const SizedBox(width: 8),
+                        //     _socialLoginButton('assets/images/google.svg',(){}),
+                        //     const SizedBox(width: 8),
+                        //     _socialLoginButton('assets/images/apple.svg',(){}),
+                        //   ],
+                        // ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -239,7 +239,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           alignment: Alignment.centerRight,
                           child: TextButton(
                             onPressed: () {
-                              Navigator.pushReplacementNamed(context, '/forgot');
+                              Navigator.pushNamed(context, '/forgot');
                             },
                             child: CustomText(
                               text: 'Forgot password?',

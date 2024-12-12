@@ -8,12 +8,12 @@ class TransactionItem extends StatelessWidget {
   final Color color;
 
   const TransactionItem({
-    Key? key,
+    super.key,
     required this.title,
     required this.amount,
     required this.time,
     required this.color,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +25,12 @@ class TransactionItem extends StatelessWidget {
             children: [
               CustomText(
                 text: title,
-                color: Color.fromRGBO(145, 145, 159, 1),
+                color: const Color.fromRGBO(145, 145, 159, 1),
                 fontfamily: 'Poppins',
                 fontSize: 16,
                 fontweigth: FontWeight.w500,
               ),
-              Spacer(),
+              const Spacer(),
               CustomText(
                 text: amount,
                 color: color,
@@ -40,12 +40,12 @@ class TransactionItem extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 5,),
+          const SizedBox(height: 5,),
           Align(
             alignment: Alignment.bottomRight,
             child: CustomText(
               text: time,
-              color: Color.fromRGBO(145, 145, 159, 1),
+              color: const Color.fromRGBO(145, 145, 159, 1),
               fontfamily: 'Poppins',
               fontSize: 14,
               fontweigth: FontWeight.w500,

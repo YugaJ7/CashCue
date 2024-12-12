@@ -85,27 +85,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                         const Spacer(),
-                        Row(
-                          children: [
-                            Expanded(child: Divider(thickness: 1, color: Colors.grey[300])),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 10.0),
-                              child: CustomText(text: 'Or Login With', color: Color(0xFF6A707C), fontfamily: 'Urbanist', fontSize: 14, fontweigth: FontWeight.w600,)
-                            ),
-                            Expanded(child: Divider(thickness: 1, color: Colors.grey[300])),
-                          ],
-                        ),
-                        const SizedBox(height: 25),
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SocialButton(imagePath: 'assets/images/facebook.svg'),
-                            SizedBox(width: 8),
-                            SocialButton(imagePath: 'assets/images/google.svg'),
-                            SizedBox(width: 8),
-                            SocialButton(imagePath: 'assets/images/apple.svg'),
-                          ],
-                        ),
+                        // Row(
+                        //   children: [
+                        //     Expanded(child: Divider(thickness: 1, color: Colors.grey[300])),
+                        //     const Padding(
+                        //       padding: EdgeInsets.symmetric(horizontal: 10.0),
+                        //       child: CustomText(text: 'Or Login With', color: Color(0xFF6A707C), fontfamily: 'Urbanist', fontSize: 14, fontweigth: FontWeight.w600,)
+                        //     ),
+                        //     Expanded(child: Divider(thickness: 1, color: Colors.grey[300])),
+                        //   ],
+                        // ),
+                        // const SizedBox(height: 25),
+                        // const Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     SocialButton(imagePath: 'assets/images/facebook.svg'),
+                        //     SizedBox(width: 8),
+                        //     SocialButton(imagePath: 'assets/images/google.svg'),
+                        //     SizedBox(width: 8),
+                        //     SocialButton(imagePath: 'assets/images/apple.svg'),
+                        //   ],
+                        // ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

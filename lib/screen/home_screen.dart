@@ -200,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const AverageMoneySpentGraph(),
                     const SizedBox(height: 8),
                     // Recent Transactions
-                    Container(
+                    SizedBox(
                       width: width,
                       height: height * 0.05,
                       child: const Row(
