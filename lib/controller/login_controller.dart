@@ -1,44 +1,57 @@
 import 'package:flutter/material.dart';
-import '../services/login_api.dart';
-Future<void> login(
-      {required BuildContext context,
-      required String email,
-      required String password}) async {
-    final result = await loginUser(email: email, password: password);
+import 'package:get/get.dart';
 
-    if (result['success']) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(result['data']['message'] ?? 'Login successful')),
+class LoginController extends GetxController {
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var obscureText = true.obs; 
+  var isLoading = false.obs; 
+
+  void toggleObscureText() {
+    obscureText.value = !obscureText.value;
+  }
+
+  void login() async {
+    if (emailController.text.isEmpty && passwordController.text.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Please fill all fields',
+        snackPosition: SnackPosition.BOTTOM,
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
       );
-      Navigator.pushReplacementNamed(context, '/navbar');
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(result['message'])),
+    } else if (emailController.text.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Please enter your email',
+        snackPosition: SnackPosition.BOTTOM,
+        duration: Duration(seconds: 2),
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
       );
+    } else if (passwordController.text.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Please enter your password',
+        duration: Duration(seconds: 2),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }else {
+      isLoading.value = true; 
+      // API CALL
+      await Future.delayed(Duration(seconds: 2)); 
+      isLoading.value = false; 
+      Get.offAllNamed('/navbar'); 
     }
   }
 
-
-// Future<void> login({required BuildContext context, required String email,required String password}) async {
-//   final Uri url = Uri.parse('https://cash-cue.onrender.com/user/signin');
-//     final response = await http.post(
-//       url,
-//       headers: {'Content-Type': 'application/json'},
-//       body: jsonEncode({
-//         'email': email,
-//         'password': password,
-//       }),
-//     );
-
-//     if (response.statusCode == 200) {
-//       final data = jsonDecode(response.body);
-//       if (data['success'] == true) {
-//         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Login successful')));
-//         //Navigator.pushReplacementNamed(context, '/home');
-//       } else {
-//         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['message'] ?? 'Login failed')));
-//       }
-//     } else {
-//       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('An error occurred. Please try again.')));
-//     }
-// }
+  @override
+  void onClose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.onClose();
+  }
+}

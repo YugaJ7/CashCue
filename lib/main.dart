@@ -1,27 +1,17 @@
-import 'package:cashcue/screen/add_balance_screen.dart';
-import 'package:cashcue/screen/add_group_screen.dart';
-import 'package:cashcue/screen/add_transaction_screen.dart';
-import 'package:cashcue/screen/forgot_screen.dart';
-import 'package:cashcue/screen/home_screen.dart';
-import 'package:cashcue/screen/login.dart';
-import 'package:cashcue/screen/register.dart';
-import 'package:cashcue/screen/splash_page.dart';
-import 'package:cashcue/widgets/navbar.dart';
+import 'package:cashcue/screen/login_register_screen.dart';
+import 'package:cashcue/screen/otp_verify_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 
-import 'controller/home_contoller.dart';  
-import 'screen/profile_screen.dart';
+import 'bindings/auth_bindings.dart';
+import 'screen/forgot_screen.dart';
+import 'screen/login_screen.dart';
+import 'screen/new_passwor_screen.dart';
+import 'screen/register.dart';
+import 'screen/splash_screen.dart';
 
 void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => HomeController()),
-      ],
-      child: const MyApp(),
-    ),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -29,23 +19,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
-      routes: {
-        '/': (context) => const SplashScreen(),
-        '/login': (context) => const LoginScreen(),
-        '/register': (context) => const RegisterScreen(),
-        '/forgot': (context) => const ForgotScreen(),
-        '/navbar': (context) => const Navbar(),
-        '/home': (context) => const HomeScreen(),
-        '/add_expense': (context) => const ExpenseIncomeScreen(),
-        '/profile': (context) => const ProfileScreen(),
-        '/analysis': (context) => const ProfileScreen(),
-        '/group': (context) => const ProfileScreen(),
-        '/balance': (context) => const AddBalanceScreen(),
-        '/add_group': (context) => const AddGroupScreen(),
-      },
+      getPages: [
+        GetPage(name: '/', page: () => SplashScreen(), binding: SplashBinding()),
+        // GetPage(name: '/onboarding', page: () => OnboardingScreen(), binding: OnboardingBinding()),
+        GetPage(name: '/login_register', page: () => LoginRegisterScreen(),),
+        GetPage(name: '/register', page: () => RegisterScreen(), binding: RegisterBinding()),
+        GetPage(name: '/login', page: () => LoginScreen(), binding: LoginBinding()),
+        GetPage(name: '/forgotpassword', page: () => ForgotScreen(), binding: ForgotBinding()),
+        GetPage(name: '/otpverify', page: () =>  OtpVerificationScreen(), binding: OtpBinding()),
+        GetPage(name: '/newpassword', page: () => NewPassScreen(), binding: NewPassBinding()),
+        GetPage(name: '/confirm', page: () => const ConfirmScreen()),
+        // GetPage(name: '/navbar', page: () => Navbar()),
+      ],
     );
   }
 }

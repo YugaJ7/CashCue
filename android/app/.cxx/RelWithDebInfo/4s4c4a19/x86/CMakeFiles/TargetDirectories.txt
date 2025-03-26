@@ -1,0 +1,2 @@
+C:/Users/yugaj/Desktop/cashcue/android/app/.cxx/RelWithDebInfo/4s4c4a19/x86/CMakeFiles/edit_cache.dir
+C:/Users/yugaj/Desktop/cashcue/android/app/.cxx/RelWithDebInfo/4s4c4a19/x86/CMakeFiles/rebuild_cache.dir

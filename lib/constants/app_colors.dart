@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 
+@immutable
 class AppColors {
-  static const Color primary = Color(0xFFB968E7);
-  static const Color secondary = Color(0xFF1E122B);
-  static const Color textHint = Color(0xFF8391A1);
-  static const Color background = Color(0xFFF7F8F9);
-  static const Color border = Color(0xFFDADADA);
+  static const lightpink = Color.fromRGBO(182, 76, 242, 0.72);
+  static const coldgrey = Color(0xFF415371);
+  static const grey = Color.fromRGBO(131, 145, 161, 1);
+  static const black = Color.fromRGBO(30, 35, 44, 1);
+  static const darkgrey = Color.fromRGBO(106, 112, 124, 1);
+  static const lightgrey = Color.fromRGBO(232, 236, 244, 1);
+  static const darkpurple = Color.fromRGBO(30, 18, 43, 1);
+  // static const purpleplum = Color(0xFF585CE5);
+  // static const lilac = Color(0xFFFAFAFF);
+  // static const lilacdark = Color(0xFFF0F1F9);
+  // static const darkgrey = Color(0xFF898D9E);
+  // static const lightgrey = Color(0xFFE5E6EE);
+  // static const dustgrey = Color(0xFFB0B2C3);
 }

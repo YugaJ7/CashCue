@@ -1,134 +1,75 @@
-import 'package:cashcue/widgets/text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
+import '../components/style/button.dart';
+import '../components/style/text.dart';
+import '../components/widgets/buttons/elevated_button.dart';
+import '../components/widgets/textfield/text_field.dart';
+import '../constants/app_colors.dart';
 import '../controller/forgot_controller.dart';
-import '../widgets/elevated_button.dart';
-import '../widgets/text.dart';
 
-class ForgotScreen extends StatefulWidget {
-  const ForgotScreen({super.key});
+class ForgotScreen extends StatelessWidget {
+  final ForgotController controller = Get.find();
 
-  @override
-  State<ForgotScreen> createState() => _ForgotScreenState();
-}
-
-class _ForgotScreenState extends State<ForgotScreen> {
-  final TextEditingController _emailController = TextEditingController();
-  bool _isLoading = false;
-
-  // Future<void> _forgot() async {
-  //   setState(() {
-  //     _isLoading = true;
-  //   });
-
-  //   final String email = _emailController.text.trim();
-    
-  //   if (email.isEmpty) {
-  //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter your email')));
-  //     setState(() {
-  //       _isLoading = false;
-  //     });
-  //     return;
-  //   }
-  //   final Uri url = Uri.parse('https://cash-cue.onrender.com/user/forgot-password');
-  //   final response = await http.post(
-  //     url,
-  //     headers: {'Content-Type': 'application/json'},
-  //     body: jsonEncode({
-  //       'email': email,
-  //     }),
-  //   );
-  //   if (response.statusCode == 200) {
-  //     final data = jsonDecode(response.body);
-  //     if (data['success'] == true) {
-  //       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Email send successful')));
-  //       //Navigator.pushReplacementNamed(context, '/home');
-  //     } else {
-  //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data['message'] ?? 'Email sending failed')));
-  //     }
-  //   } else {
-  //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('An error occurred. Please try again.')));
-  //   }
-  //   setState(() {
-  //     _isLoading = false;
-  //   });
-  // }
   @override
   Widget build(BuildContext context) {
-    double height =  MediaQuery.of(context).size.height;
-    double width =  MediaQuery.of(context).size.width;
+    var height = MediaQuery.sizeOf(context).height;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: [
-          SizedBox(
-              height: height,
-              width:  width,
-              child: Image.asset(
-                "assets/images/forgot.png",
-                fit: BoxFit.cover,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: height * 0.05),
+              Row(
                 children: [
-                  SizedBox(height: MediaQuery.of(context).size.height*.18,),
-                  const CustomText(
-                    text: 'Forgot Password?', color: Color(0xFF1E122B), fontfamily: 'Urbanist',fontSize: 30,fontweigth: FontWeight.bold,),
-                  const SizedBox(height: 10),
-                  const CustomText(
-                    text: 'Don\'t worry! It occurs. Please enter the email address linked with your account.', color: Color(0xFF8391A1), fontfamily: 'Urbanist',fontSize: 16,fontweigth: FontWeight.w500,),
-                  SizedBox(height: MediaQuery.of(context).size.height*.08,),
-                  CustomTextField(
-                    hintText: 'Enter your email',
-                    hintSize: width*0.04,
-                    hintColor: const Color(0xFF8391A1),
-                    fillColor: const Color(0xFFF7F8F9),
-                    textColor: const Color(0xFF8391A1),
-                    controller: _emailController,
-                  ),
-                  const SizedBox(height: 16),
-                  SizedBox(
-                    height: 56,
-                    width: double.infinity,
-                    child: CustomElevatedButton(
-                      text: _isLoading ? 'Sending...' : 'Send Email', 
-                      onPressed: () async {
-                        if (_emailController.text.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please enter your email')));
-                          return;
-                        }
-                        else{
-                          setState(() {
-                            _isLoading = true;
-                          });
-                          await forgot(context: context, email: _emailController.text.trim());
-                          setState(() {
-                            _isLoading = false;
-                          });
-                        }
-                      },
-                      backgroundcolor: const Color(0xFFB968E7), 
-                      textcolor: Colors.white,
-                      bordercolor: const Color(0xFFB968E7)),
-                  ),
-                  const Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const CustomText(text: 'Remember Password?', color: Color(0xFFA33CEB), fontfamily: 'Urbanist',fontSize: 15, fontweigth: FontWeight.w500),
-                      TextButton(
-                        onPressed: (){Navigator.pushReplacementNamed(context, '/login');}, 
-                        child: const CustomText(text: 'Login', color: Color(0xFF1E122B), fontfamily: 'Urbanist',fontSize: 15, fontweigth: FontWeight.bold))
-                    ],
+                  SizedBox(width: 8),
+                  GestureDetector(
+                    onTap: () => Get.back(),
+                    child: SvgPicture.asset('assets/images/icons/back_icon.svg', width: 41,height: 41),
                   ),
                 ],
               ),
-            )
-        ],
+            SizedBox(height: height * 0.036),
+              Text(
+                "Forgot Password?",
+                style: TextStyles.withColor(textcolor: AppColors.black).headline1,
+                maxLines: 2,
+              ),
+              SizedBox(height: height * 0.02),
+            Text(
+              'Don\'t worry! It occurs. Please enter the email address linked with your account.',
+              style:
+                  TextStyles.withColor(textcolor: AppColors.grey).bodytext3,
+              maxLines: 2,
+            ),
+            SizedBox(height: height * 0.05),
+            //Email Text Field
+            AuthTextField(
+              label: 'E-mail',
+              hint: 'Enter your e-mail here',
+              icon: 'assets/images/icons/email.png',
+              controller: controller.emailController,
+              obscureText: false.obs,
+            ),
+            SizedBox(height: height * 0.036),
+            //Confirm Elevated Button
+            SizedBox(
+              height: 60,
+              width: double.infinity,
+              child: CustomElevatedButton(
+                text: 'Send Code',
+                buttonStyle: ButtonStyles.withColor(color: AppColors.lightpink).filledprimarybutton,
+                textStyle: TextStyles.withColor(textcolor: Colors.white).buttontext2,
+                onPressed: controller.confirmEmail,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -90,9 +90,9 @@ class _GroupDetailState extends State<GroupDetail> {
           ),
           child: Column(
             children: [
-              SizedBox(height: 45),
+              const SizedBox(height: 45),
               CustomText(text: title, color: const Color.fromRGBO(30, 18, 43, 1), fontfamily: 'Poppins', fontSize: 18, fontweigth: FontWeight.w500),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               _buildCustomTabBar(),
               const SizedBox(height: 20),
               Expanded(
@@ -106,10 +106,10 @@ class _GroupDetailState extends State<GroupDetail> {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: const FloatingActionButton(
           onPressed: null, 
           backgroundColor: Colors.purple,
-          child: const Icon(Icons.add, color: Colors.white),
+          child: Icon(Icons.add, color: Colors.white),
         ),
       ),
     );

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,12 +27,13 @@ import 'package:shared_preferences/shared_preferences.dart';
       if (data['data']['groups'] != null && data['data']['groups'] is List) {
         groupList = List<String>.from(data['data']['groups']);
       }
-      else
+      else {
         groupList=["0"];
-      print('Group id = ${groupList}');
+      }
+      print('Group id = $groupList');
       final groupid = await SharedPreferences.getInstance();
       await groupid.setStringList('groups', groupList);
-      print('Group id = ${groupid}');
+      print('Group id = $groupid');
       if (data['success'] == true) {
         return {'success': true, 'data': 'Login Done'};
       } else {
