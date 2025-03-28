@@ -30,7 +30,7 @@ class RegisterScreen extends StatelessWidget {
               SizedBox(height: height * 0.05),
               Row(
                 children: [
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   GestureDetector(
                     onTap: () => Get.back(),
                     child: SvgPicture.asset('assets/images/icons/back_icon.svg', width: 41,height: 41),
@@ -70,7 +70,7 @@ class RegisterScreen extends StatelessWidget {
                 style:
                     TextStyles.withColor(textcolor: AppColors.grey).bodytext1,
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Obx(() => TextField(
                     cursorColor: AppColors.darkgrey,
                     style: TextStyles.withColor(textcolor: AppColors.grey).bodytext1,
@@ -93,41 +93,41 @@ class RegisterScreen extends StatelessWidget {
                         onPressed: controller.toggleObscureText,
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFFDADADA)),
+                        borderSide: const BorderSide(color: Color(0xFFDADADA)),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Color(0xFFDADADA)),
+                        borderSide: const BorderSide(color: Color(0xFFDADADA)),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      fillColor: Color(0xFFF7F8F9),
+                      fillColor: const Color(0xFFF7F8F9),
                       filled: true,
                     ),
                   )),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
           
               _buildValidationRow(
                   "At least 8 characters", controller.hasMinLength),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               _buildValidationRow(
                 "Both uppercase and lowercase characters",
                 controller.hasUpperLower,
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               _buildValidationRow(
                 "At least one number or symbol",
                 controller.hasNumberOrSymbol,
               ),
-              SizedBox(height: 20),
-              Divider(color: AppColors.lightgrey, thickness: 1.5),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
+              const Divider(color: AppColors.lightgrey, thickness: 1.5),
+              const SizedBox(height: 20),
               Row(
                 children: [
                   Obx(() => Checkbox(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(4),
                         ),
-                        side: BorderSide(color: AppColors.darkgrey),
+                        side: const BorderSide(color: AppColors.darkgrey),
                         checkColor: AppColors.black,
                         value: controller.isChecked.value,
                         onChanged: (value) {
@@ -143,7 +143,7 @@ class RegisterScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
           
               //Register Elevated Button
               Obx(() => SizedBox(
@@ -181,7 +181,7 @@ class RegisterScreen extends StatelessWidget {
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SocialButton(assetPath: 'assets/images/logos/facebook.png'),
+                  SocialButton(assetPath: 'assets/images/logos/facebook.png'),
                   SizedBox(width: 50),
                   SocialButton(assetPath: 'assets/images/logos/google.png'),
                   SizedBox(width: 50),
@@ -226,7 +226,7 @@ class RegisterScreen extends StatelessWidget {
           children: [
             Icon(isValid.value ? Icons.check : Icons.close,
                 color: isValid.value ? Colors.green : Colors.red),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Expanded(
               child: Text(
                 text,

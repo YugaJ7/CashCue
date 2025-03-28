@@ -1,50 +1,35 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../services/auth_service.dart';
 
 class OtpController extends GetxController {
   final TextEditingController otpController = TextEditingController();
   final RxBool isLoading = false.obs;
 
-  // Function to verify OTP
-  void verifyOtp() {
+  final AuthService _authService = AuthService();
+  
+  void verifyOtp(String previousRoute, String email) async {
     String otp = otpController.text.trim();
 
-    if (otp.length < 4) {
+    if (otp.length < 6) {
       Get.snackbar(
         "Invalid OTP",
-        "Please enter a 4-digit OTP",
+        "Please enter a valid OTP",
         backgroundColor: Colors.red,
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
       );
       return;
     }
-
+    log(otp);
     isLoading.value = true;
+    await _authService.otpVerification(previousRoute: previousRoute, email: email, otp: otp);
+    isLoading.value = false;
+  }
 
-    // Simulate API Call
-    Future.delayed(Duration(seconds: 2), () {
-      isLoading.value = false;
-
-      if (otp == "1234") { // Example OTP for testing
-        Get.snackbar(
-          "Success",
-          "OTP Verified Successfully",
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM,
-        );
-        // Navigate to the next screen
-        Get.offNamed('/newpassword');
-      } else {
-        Get.snackbar(
-          "Error",
-          "Invalid OTP. Please try again!",
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM,
-        );
-      }
-    });
+  void resendOtp(String previousRoute, String email) async {
+    await _authService.otpResend(previousRoute: previousRoute, email: email);
   }
 }

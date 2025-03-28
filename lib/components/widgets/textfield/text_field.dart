@@ -28,7 +28,7 @@ class AuthTextField extends StatelessWidget {
           label,
           style: TextStyles.withColor(textcolor: AppColors.grey).bodytext1,
         ),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         Obx(() {
           return TextField(
             controller: controller,
@@ -49,14 +49,14 @@ class AuthTextField extends StatelessWidget {
                     )
                   : null,
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color:  Color(0xFFDADADA)),
+                borderSide: const BorderSide(color:  Color(0xFFDADADA)),
                 borderRadius: BorderRadius.circular(8),
               ),
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color:  Color(0xFFDADADA)),
+                borderSide: const BorderSide(color:  Color(0xFFDADADA)),
                 borderRadius: BorderRadius.circular(8),
               ),
-              fillColor: Color(0xFFF7F8F9),
+              fillColor: const Color(0xFFF7F8F9),
               filled: true,
             ),
           );

@@ -14,11 +14,13 @@ class LoginRegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    return Stack(
-      children: [
-        SizedBox(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          SizedBox(
             height: height,
-            width:  width,
+            width: width,
             child: Image.asset(
               "assets/images/background/welcome.png",
               fit: BoxFit.cover,
@@ -29,34 +31,42 @@ class LoginRegisterScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(height: height * 0.32), 
+                SizedBox(height: height * 0.32),
                 SvgPicture.asset("assets/images/logos/splash_logo.svg"),
-                SizedBox(height: height * 0.15), 
+                SizedBox(height: height * 0.15),
                 SizedBox(
                   height: 56,
                   width: double.infinity,
                   child: CustomElevatedButton(
-                    text: 'Login', 
-                    onPressed: () => Get.toNamed('/login'), 
-                    textStyle: TextStyles.withColor(textcolor: Colors.white).buttontext2,
-                    buttonStyle: ButtonStyles.withColor(color: AppColors.lightpink).filledprimarybutton,
-                    ),
+                    text: 'Login',
+                    onPressed: () => Get.toNamed('/login'),
+                    textStyle: TextStyles.withColor(textcolor: Colors.white)
+                        .buttontext2,
+                    buttonStyle:
+                        ButtonStyles.withColor(color: AppColors.lightpink)
+                            .filledprimarybutton,
+                  ),
                 ),
                 const SizedBox(height: 16),
                 SizedBox(
                   height: 56,
                   width: double.infinity,
                   child: CustomElevatedButton(
-                    text: 'Register', 
-                    onPressed: () => Get.toNamed('/register'), 
-                    textStyle: TextStyles.withColor(textcolor: AppColors.lightpink).buttontext2,
-                    buttonStyle: ButtonStyles.withColor(color: AppColors.lightpink).outlinedprimarybutton,
+                    text: 'Register',
+                    onPressed: () => Get.toNamed('/register'),
+                    textStyle:
+                        TextStyles.withColor(textcolor: AppColors.lightpink)
+                            .buttontext2,
+                    buttonStyle:
+                        ButtonStyles.withColor(color: AppColors.lightpink)
+                            .outlinedprimarybutton,
                   ),
                 )
               ],
             ),
           )
-      ],
+        ],
+      ),
     );
   }
 }

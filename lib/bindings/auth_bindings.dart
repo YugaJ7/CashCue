@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../controller/forgot_controller.dart';
 import '../controller/login_controller.dart';
+import '../controller/onboarding_controller.dart';
 import '../controller/otp_contoller.dart';
 import '../controller/splash_controller.dart';
 
@@ -12,6 +13,13 @@ class SplashBinding implements Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => SplashController());
+  }
+}
+// onboarding_binding.dart
+class OnboardingBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(()=> OnboardingController());
   }
 }
 

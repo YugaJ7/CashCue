@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../services/auth_service.dart';
+import '../utils/validator.dart';
 
 class RegisterController extends GetxController {
   var fullNameController = TextEditingController();
@@ -14,14 +16,16 @@ class RegisterController extends GetxController {
   var isButtonEnabled = false.obs;
   var isLoading = false.obs; 
 
+  final AuthService _authService = AuthService();
+
   void toggleObscureText() {
     obscureText.value = !obscureText.value;
   }
 
   void validatePassword(String password) {
-    hasMinLength.value = password.length >= 8;
-    hasUpperLower.value = RegExp(r'(?=.*[a-z])(?=.*[A-Z])').hasMatch(password);
-    hasNumberOrSymbol.value = RegExp(r'(?=.*\d)|(?=.*[!@#\$%^&*(),.?":{}|<>])').hasMatch(password);
+    hasMinLength.value = PasswordValidator.hasMinLength(password);
+    hasUpperLower.value = PasswordValidator.hasUpperLower(password);
+    hasNumberOrSymbol.value = PasswordValidator.hasNumberOrSymbol(password);
     updateButtonState();
   }
 
@@ -40,46 +44,39 @@ class RegisterController extends GetxController {
         'Error',
         'Please fill all fields',
         snackPosition: SnackPosition.BOTTOM,
-        duration: Duration(seconds: 2),
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-    } else if (!hasMinLength.value || !hasUpperLower.value || !hasNumberOrSymbol.value) {
-      String errorMessage = 'Password must meet the following requirements:\n';
-      if (!hasMinLength.value) errorMessage += '- At least 8 characters\n';
-      if (!hasUpperLower.value) errorMessage += '- Both uppercase and lowercase letters\n';
-      if (!hasNumberOrSymbol.value) errorMessage += '- At least one number or symbol';
-      Get.snackbar(
-        'Error',
-        errorMessage,
-        snackPosition: SnackPosition.BOTTOM,
-        duration: Duration(seconds: 2),
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-    } else if (!isChecked.value) {
-      Get.snackbar(
-        'Error',
-        'Please accept the privacy policy and term of use',
-        snackPosition: SnackPosition.BOTTOM,
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
     } else {
-      isLoading.value = true; 
-      // API CALL
-      await Future.delayed(Duration(seconds: 2));
-      Get.snackbar(
-        'Verification Link Sent',
-        'Please verify your email address before logining',
-        snackPosition: SnackPosition.BOTTOM,
-        duration: Duration(seconds: 2),
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
-      );
-      isLoading.value = false; 
-      Get.offNamed('/login'); 
+      String? validationError = PasswordValidator.validatePassword(passwordController.text);
+      if (validationError != null) {
+        Get.snackbar(
+          'Error',
+          validationError,
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 2),
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      } else if (!isChecked.value) {
+        Get.snackbar(
+          'Error',
+          'Please accept the privacy policy and terms of use',
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 2),
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      } else {
+        isLoading.value = true; 
+        await _authService.registerUser(
+          name: fullNameController.text,
+          email: emailController.text,
+          password: passwordController.text,
+        );
+        isLoading.value = false; 
+      }
     }
   }
 

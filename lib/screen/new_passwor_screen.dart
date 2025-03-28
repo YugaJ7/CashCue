@@ -10,6 +10,8 @@ import '../controller/new_pass_controller.dart';
 class NewPassScreen extends StatelessWidget {
   final NewPassController controller = Get.put(NewPassController());
 
+  NewPassScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.sizeOf(context).height;
@@ -25,7 +27,7 @@ class NewPassScreen extends StatelessWidget {
             SizedBox(height: height * 0.05),
             Row(
               children: [
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 GestureDetector(
                   onTap: () => Get.back(),
                   child: SvgPicture.asset('assets/images/icons/back_icon.svg',
@@ -51,7 +53,7 @@ class NewPassScreen extends StatelessWidget {
               style:
                   TextStyles.withColor(textcolor: AppColors.darkgrey).bodytext2,
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Obx(() => TextField(
                   cursorColor: AppColors.darkgrey,
                   style:
@@ -75,27 +77,27 @@ class NewPassScreen extends StatelessWidget {
                       onPressed: controller.toggleObscureText,
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Color(0xFFDADADA)),
+                      borderSide: const BorderSide(color: Color(0xFFDADADA)),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Color(0xFFDADADA)),
+                      borderSide: const BorderSide(color: Color(0xFFDADADA)),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    fillColor: Color(0xFFF7F8F9),
+                    fillColor: const Color(0xFFF7F8F9),
                     filled: true,
                   ),
                 )),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
 
             _buildValidationRow(
                 "At least 8 characters", controller.hasMinLength),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             _buildValidationRow(
               "Both uppercase and lowercase characters",
               controller.hasUpperLower,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             _buildValidationRow(
               "At least one number or symbol",
               controller.hasNumberOrSymbol,
@@ -103,19 +105,17 @@ class NewPassScreen extends StatelessWidget {
             SizedBox(height: height * 0.036),
 
             //Confirm Button
-            SizedBox(
+            Obx(() => SizedBox(
               height: 60,
               width: double.infinity,
               child: CustomElevatedButton(
-                text: 'Confirm',
-                buttonStyle: ButtonStyles.withColor(color: AppColors.lightpink)
-                    .filledprimarybutton,
-                textStyle:
-                    TextStyles.withColor(textcolor: Colors.white).buttontext2,
-                onPressed: controller.confirmPassword,
+                text: controller.isLoading.value?'Changing the password' :'Confirm',
+                buttonStyle: ButtonStyles.withColor(color: AppColors.lightpink).filledprimarybutton,
+                textStyle: TextStyles.withColor(textcolor: Colors.white).buttontext2,
+                onPressed: controller.isLoading.value? null: controller.confirmPassword,
               ),
-            ),
-            SizedBox(height: 40),
+            )),
+            const SizedBox(height: 40),
           ],
         ),
       ),
@@ -127,7 +127,7 @@ class NewPassScreen extends StatelessWidget {
           children: [
             Icon(isValid.value ? Icons.check : Icons.close,
                 color: isValid.value ? Colors.green : Colors.red),
-            SizedBox(width: 8),
+            const SizedBox(width: 8),
             Expanded(
               child: Text(
                 text,

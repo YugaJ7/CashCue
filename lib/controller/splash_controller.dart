@@ -1,6 +1,8 @@
 import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
 
+import '../utils/secure_storage.dart';
+
 class SplashController extends GetxController with GetTickerProviderStateMixin {
   late AnimationController controller;
   late Animation<Offset> logoAnimation;
@@ -35,6 +37,15 @@ class SplashController extends GetxController with GetTickerProviderStateMixin {
       showText.value = true;
       controller.forward();
     });
+    Future.delayed(const Duration(seconds: 5), checkLoginStatus);
+  }
+  void checkLoginStatus() async {
+    String? token = await SecureStorage.getAccessToken();
+    if (token != null) {
+      Get.offAllNamed('/temp'); 
+    } else {
+      Get.offAllNamed('/onboarding'); 
+    }
   }
 
   @override

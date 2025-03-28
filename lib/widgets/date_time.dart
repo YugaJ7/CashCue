@@ -35,7 +35,7 @@ class PickerItemWidget extends StatelessWidget {
           if (result != null) {
             date.value = result;
             onDateTimeChanged(result); 
-            print('result: $result');
+            //print('result: $result');
           }
         },
         child: Padding(

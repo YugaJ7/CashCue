@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class TextStyles {
    Color? textcolor;
+   late final TextStyle onboardinghead;
+   late final TextStyle onboardingtitle;
    late final TextStyle headline1;
    late final TextStyle headline2;
    late final TextStyle bodytext1;
@@ -10,6 +12,16 @@ class TextStyles {
    late final TextStyle bodytext3;
    late final TextStyle buttontext2;
    TextStyles.withColor({this.textcolor}) {
+     onboardinghead = GoogleFonts.poppins(
+       color: textcolor,
+       fontSize: 30,
+       fontWeight: FontWeight.w800,
+     );
+     onboardingtitle = GoogleFonts.poppins(
+       color: textcolor,
+       fontSize: 14,
+       fontWeight: FontWeight.w400,
+     );
      headline1 = GoogleFonts.urbanist(
        color: textcolor,
        fontSize: 30,
@@ -20,15 +32,13 @@ class TextStyles {
      headline2 = GoogleFonts.urbanist(
        color: textcolor,
        fontSize: 15,
-       fontWeight: FontWeight.w600,
+       fontWeight: FontWeight.w700,
+       height: 1.7
      );
      bodytext1 = GoogleFonts.notoSans(
       color: textcolor,
       fontSize: 16,
       fontWeight: FontWeight.normal,
-      // letterSpacing: 1.2,
-      // wordSpacing: 2,
-      // height: 1.50
     );
     bodytext2 = GoogleFonts.urbanist(
        color: textcolor,

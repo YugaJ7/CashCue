@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../services/auth_service.dart';
+
 class LoginController extends GetxController {
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
   var obscureText = true.obs; 
   var isLoading = false.obs; 
+
+  final AuthService _authService = AuthService();
 
   void toggleObscureText() {
     obscureText.value = !obscureText.value;
@@ -17,7 +21,7 @@ class LoginController extends GetxController {
         'Error',
         'Please fill all fields',
         snackPosition: SnackPosition.BOTTOM,
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
@@ -26,7 +30,7 @@ class LoginController extends GetxController {
         'Error',
         'Please enter your email',
         snackPosition: SnackPosition.BOTTOM,
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
@@ -34,17 +38,15 @@ class LoginController extends GetxController {
       Get.snackbar(
         'Error',
         'Please enter your password',
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
         colorText: Colors.white,
       );
     }else {
       isLoading.value = true; 
-      // API CALL
-      await Future.delayed(Duration(seconds: 2)); 
+      await _authService.login(emailController.text, passwordController.text); 
       isLoading.value = false; 
-      Get.offAllNamed('/navbar'); 
     }
   }
 

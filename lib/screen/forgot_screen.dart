@@ -12,6 +12,8 @@ import '../controller/forgot_controller.dart';
 class ForgotScreen extends StatelessWidget {
   final ForgotController controller = Get.find();
 
+  ForgotScreen({super.key});
+  
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.sizeOf(context).height;
@@ -27,7 +29,7 @@ class ForgotScreen extends StatelessWidget {
             SizedBox(height: height * 0.05),
               Row(
                 children: [
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   GestureDetector(
                     onTap: () => Get.back(),
                     child: SvgPicture.asset('assets/images/icons/back_icon.svg', width: 41,height: 41),
@@ -58,16 +60,16 @@ class ForgotScreen extends StatelessWidget {
             ),
             SizedBox(height: height * 0.036),
             //Confirm Elevated Button
-            SizedBox(
+            Obx(() => SizedBox(
               height: 60,
               width: double.infinity,
               child: CustomElevatedButton(
-                text: 'Send Code',
+                text: controller.isLoading.value?'Sending Code' :'Send Code',
                 buttonStyle: ButtonStyles.withColor(color: AppColors.lightpink).filledprimarybutton,
                 textStyle: TextStyles.withColor(textcolor: Colors.white).buttontext2,
-                onPressed: controller.confirmEmail,
+                onPressed: controller.isLoading.value? null: controller.confirmEmail,
               ),
-            ),
+            ))
           ],
         ),
       ),

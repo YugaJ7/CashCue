@@ -30,7 +30,7 @@ class LoginScreen extends StatelessWidget {
               SizedBox(height: height * 0.05),
               Row(
                 children: [
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   GestureDetector(
                     onTap: () => Get.back(),
                     child: SvgPicture.asset('assets/images/icons/back_icon.svg', width: 41,height: 41),
@@ -72,7 +72,7 @@ class LoginScreen extends StatelessWidget {
                   onPressed: () => Get.toNamed('/forgotpassword'),
                   child: Text(
                     'Forgot your password?',
-                    style: TextStyles.withColor(textcolor: AppColors.darkgrey).headline2,
+                    style: TextStyles.withColor(textcolor: AppColors.darkgrey).buttontext2,
                   ),
                 ),
               ),
@@ -113,7 +113,7 @@ class LoginScreen extends StatelessWidget {
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SocialButton(assetPath: 'assets/images/logos/facebook.png'),
+                  SocialButton(assetPath: 'assets/images/logos/facebook.png'),
                   SizedBox(width: 50),
                   SocialButton(assetPath: 'assets/images/logos/google.png'),
                   SizedBox(width: 50),

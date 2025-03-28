@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -11,11 +13,17 @@ import '../controller/otp_contoller.dart';
 class OtpVerificationScreen extends StatelessWidget {
   final OtpController controller = Get.find();
 
+  OtpVerificationScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
+    // Get the argument passed from the previous screen
+    final String previousRoute = Get.arguments?['previousRoute'] ?? '';
+    final String email = Get.arguments?['email'] ?? '';
+    // Get the screen height and width
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    print(width);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -29,7 +37,7 @@ class OtpVerificationScreen extends StatelessWidget {
             // Back Button
             Row(
               children: [
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 GestureDetector(
                   onTap: () => Get.back(),
                   child: SvgPicture.asset(
@@ -56,56 +64,82 @@ class OtpVerificationScreen extends StatelessWidget {
             // OTP Fields
             Center(
               child: Pinput(
-                length: 4,
+                length: 6,
                 controller: controller.otpController,
                 keyboardType: TextInputType.number,
                 defaultPinTheme: PinTheme(
-                  height: height*0.067,
-                  width: width*0.18,
-                  textStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  height: height * 0.067,
+                  width: width * 0.18,
+                  textStyle: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.bold),
                   decoration: BoxDecoration(
-                    color: Color.fromRGBO(247, 248, 249, 1),
+                    color: const Color.fromRGBO(247, 248, 249, 1),
                     border: Border.all(color: AppColors.lightgrey),
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
                 submittedPinTheme: PinTheme(
-                  height: height*0.07,
-                  width: width*0.18,
-                  textStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  height: height * 0.07,
+                  width: width * 0.18,
+                  textStyle: const TextStyle(
+                      fontSize: 24, fontWeight: FontWeight.bold),
                   decoration: BoxDecoration(
-                    color: Color.fromRGBO(255, 255, 255, 1),
-                    border: Border.all(color: Color.fromRGBO(53, 194, 193, 1)),
+                    color: const Color.fromRGBO(255, 255, 255, 1),
+                    border: Border.all(
+                        color: const Color.fromRGBO(53, 194, 193, 1)),
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
                 showCursor: false,
                 onCompleted: (value) {
-                  print("Entered OTP: $value");
+                  log("Entered OTP: $value");
                 },
               ),
             ),
-
             SizedBox(height: height * 0.036),
-
             // Verify Button
             Obx(() => SizedBox(
                   width: double.infinity,
                   height: 60,
                   child: ElevatedButton(
-                    onPressed: controller.isLoading.value ? null : controller.verifyOtp,
-                    style: ButtonStyles.withColor(color: AppColors.lightpink).filledprimarybutton,
+                    onPressed: controller.isLoading.value
+                        ? null
+                        : () => controller.verifyOtp(previousRoute, email),
+                    style: ButtonStyles.withColor(color: AppColors.lightpink)
+                        .filledprimarybutton,
                     child: controller.isLoading.value
                         ? Text(
                             "Verifying...",
-                            style: TextStyles.withColor(textcolor: Colors.white).buttontext2,
+                            style: TextStyles.withColor(textcolor: Colors.white)
+                                .buttontext2,
                           )
                         : Text(
                             "Verify",
-                            style: TextStyles.withColor(textcolor: Colors.white).buttontext2,
+                            style: TextStyles.withColor(textcolor: Colors.white)
+                                .buttontext2,
                           ),
                   ),
                 )),
+            const Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Didn't received code?",
+                  style: TextStyles.withColor(textcolor: const Color.fromRGBO(30, 35, 44, 1))
+                      .bodytext3,
+                ),
+                TextButton(
+                  onPressed: () => controller.resendOtp(previousRoute, email),
+                  child: Text(
+                    "Resend",
+                    style: TextStyles.withColor(textcolor: AppColors.darkpurple)
+                        .headline2,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: height*0.03,)
           ],
         ),
       ),
