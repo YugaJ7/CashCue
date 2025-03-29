@@ -95,6 +95,7 @@ class AuthService {
   //Logout
   Future<void> logout() async {
     await SecureStorage.deleteTokens();
+    Get.offAllNamed('/login');
   }
 
   //OTP Verification

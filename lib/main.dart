@@ -1,16 +1,16 @@
-import 'package:cashcue/screen/login_register_screen.dart';
-import 'package:cashcue/screen/otp_verify_screen.dart';
-import 'package:cashcue/screen/temp.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'bindings/auth_bindings.dart';
 import 'screen/forgot_screen.dart';
+import 'screen/login_register_screen.dart';
 import 'screen/login_screen.dart';
 import 'screen/new_passwor_screen.dart';
 import 'screen/onboarding_screen.dart';
+import 'screen/otp_verify_screen.dart';
 import 'screen/register_screen.dart';
 import 'screen/splash_screen.dart';
+import 'screen/temp.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/otpverify', page: () =>  OtpVerificationScreen(), binding: OtpBinding()),
         GetPage(name: '/resetpassword', page: () => NewPassScreen(), binding: NewPassBinding()),
         GetPage(name: '/confirm', page: () => const ConfirmScreen()),
-        GetPage(name: '/temp', page: () => const TempScreen()),
+        GetPage(name: '/temp', page: () => TempScreen()),
         // GetPage(name: '/navbar', page: () => Navbar()),
       ],
     );
