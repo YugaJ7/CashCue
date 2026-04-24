@@ -10,7 +10,7 @@ Built using _GetX architecture_, Dio networking, Secure Storage, Biometric authe
 ---
 
 ## Download the APK
-Access the latest APK for Kotlin Dictionary from the link below.
+Access the latest APK for CashCue from the link below.
 
 [![Get APK](https://img.shields.io/badge/Get%20APK-%23B135EA?style=for-the-badge&logo=android&logoColor=white)](https://github.com/YugaJ7/CashCue/releases/download/v0.1.0/app-release-v0.1.0.apk)
 
